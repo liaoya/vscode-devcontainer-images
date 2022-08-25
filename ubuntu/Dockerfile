@@ -9,13 +9,14 @@ ARG UBUNTU_MIRROR_PATH
 RUN set -ex; \
     if [ -n "${UBUNTU_MIRROR_PATH}" ]; then \
         if [ -f /etc/apt/sources.list.origin ]; then cp -pr /etc/apt/sources.list /etc/apt/sources.list.origin; fi; \
-        sed -i -e "s%http://.*archive.ubuntu.com%${UBUNTU_MIRROR_PATH}%" \
-            -e "s%http://security.ubuntu.com%${UBUNTU_MIRROR_PATH}%" \
-            -e "s%https://.*archive.ubuntu.com%${UBUNTU_MIRROR_PATH}%" \
-            -e "s%https://security.ubuntu.com%${UBUNTU_MIRROR_PATH}%" \
+        sed -i -e "s%http://.*archive.ubuntu.com%${UBUNTU_MIRROR_PATH}%g" \
+            -e "s%http://security.ubuntu.com%${UBUNTU_MIRROR_PATH}%g" \
+            -e "s%https://.*archive.ubuntu.com%${UBUNTU_MIRROR_PATH}%g" \
+            -e "s%https://security.ubuntu.com%${UBUNTU_MIRROR_PATH}%g" \
             -e 's/^deb-src/#deb-src/' /etc/apt/sources.list; \
     fi
 
+# Never put openssh-client otherwise devcontainer will not start up 
 #hadolint ignore=DL3008
 RUN set -ex; \
     apt-get update -y; \
@@ -23,6 +24,7 @@ RUN set -ex; \
         ca-certificates \
         curl \
         git \
+        gnupg2 \
         jq \
         less \
         nano \

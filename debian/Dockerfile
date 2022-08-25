@@ -9,10 +9,11 @@ ARG DEBIAN_MIRROR_PATH
 RUN set -ex; \
     if [ -n "${DEBIAN_MIRROR_PATH}" ]; then \
         if [ -f /etc/apt/sources.list.origin ]; then cp -pr /etc/apt/sources.list /etc/apt/sources.list.origin; fi; \
-        sed -i -e "s%http://deb.debian.org%${DEBIAN_MIRROR_PATH}%" /etc/apt/sources.list \
-            -e "s%https://deb.debian.org%${DEBIAN_MIRROR_PATH}%" /etc/apt/sources.list; \
+        sed -i -e "s%http://deb.debian.org%${DEBIAN_MIRROR_PATH}%g" /etc/apt/sources.list \
+            -e "s%https://deb.debian.org%${DEBIAN_MIRROR_PATH}%g" /etc/apt/sources.list; \
     fi
 
+# Never put openssh-client otherwise devcontainer will not start up 
 #hadolint ignore=DL3008
 RUN set -ex; \
     apt-get update -y; \
@@ -20,6 +21,7 @@ RUN set -ex; \
         ca-certificates \
         curl \
         git \
+        gnupg2 \
         jq \
         less \
         nano \
