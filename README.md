@@ -3,15 +3,22 @@
 Create `.devcontainer`, put `Dockerfile` and `devcontainer.json` under it.
 
 ```Dockerfile
-RUN set -ex; \
+RUN set -eux; \
     curl -sL -o - https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz | tar --strip-components=1 -Ixz -xf - -C /usr/local/bin; \
     chown 0:0 /usr/local/bin/shellcheck
 
-RUN set -ex; \
+RUN set -eux; \
     HADOLINT_VERSION=${HADOLINT_VERSION:-$(curl -sL https://api.github.com/repos/hadolint/hadolint/releases/latest | jq -r .tag_name)}; \
     HADOLINT_VERSION=${HADOLINT_VERSION:-v2.10.0}; \
     curl -sL "https://github.com/hadolint/hadolint/releases/download/${HADOLINT_VERSION}/hadolint-Linux-x86_64" -o /usr/local/bin/hadolint; \
     chmod a+x /usr/local/bin/hadolint
+
+RUN set -eux; \
+    RIPGREP_VERSIOIN=${RIPGREP_VERSIOIN:-$(curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r .tag_name)}; \
+    RIPGREP_VERSIOIN=${RIPGREP_VERSIOIN:-13.0.0}; \
+    curl -sL "https://github.com/BurntSushi/ripgrep/releases/download/${RIPGREP_VERSIOIN}/ripgrep-${RIPGREP_VERSIOIN}-x86_64-unknown-linux-musl.tar.gz" -o - | tar --strip-components=1 -Igzip -xf - -C /usr/local/bin; \
+    chown 0:0 /usr/local/bin/rg; \
+    cp -pr rg.bash /etc/bash_completion.d/
 ```
 
 ```text

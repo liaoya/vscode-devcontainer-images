@@ -4,7 +4,7 @@ FROM $BASE_IMAGE
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 ARG ALPINE_MIRROR_PATH
-RUN set -ex; \
+RUN set -eux; \
     if [ -n "${ALPINE_MIRROR_PATH}" ]; then \
         if [ -f /etc/apk/repositories.origin ]; then cp -pr /etc/apk/repositories /etc/apk/repositories.origin; fi; \
         sed -i -e "s%http://dl-cdn.alpinelinux.org%${ALPINE_MIRROR_PATH}%g" \
@@ -13,7 +13,7 @@ RUN set -ex; \
 
 # libgcc and libstdc++ is required by vscode-server
 # hadolint ignore=DL3018
-RUN set -ex ; \
+RUN set -eux ; \
     apk update -q --no-progress ; \
     apk --no-cache --no-progress add \
         bash \
@@ -37,7 +37,7 @@ RUN set -ex ; \
     rm /var/cache/apk/*
 
 ARG USERNAME=alpine
-RUN set -ex ; \
+RUN set -eux ; \
     adduser -D -G users -s /bin/bash "${USERNAME}"; \
     echo "${USERNAME}:${USERNAME}" | chpasswd; \
     touch "/home/${USERNAME}/.bashrc"; \

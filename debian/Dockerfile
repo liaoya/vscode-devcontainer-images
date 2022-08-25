@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
 
 ARG DEBIAN_MIRROR_PATH
-RUN set -ex; \
+RUN set -eux; \
     if [ -n "${DEBIAN_MIRROR_PATH}" ]; then \
         if [ -f /etc/apt/sources.list.origin ]; then cp -pr /etc/apt/sources.list /etc/apt/sources.list.origin; fi; \
         sed -i -e "s%http://deb.debian.org%${DEBIAN_MIRROR_PATH}%g" /etc/apt/sources.list \
@@ -15,7 +15,7 @@ RUN set -ex; \
 
 # Never put openssh-client otherwise devcontainer will not start up 
 #hadolint ignore=DL3008
-RUN set -ex; \
+RUN set -eux; \
     apt-get update -y; \
     apt-get install -y --no-install-recommends \
         ca-certificates \
@@ -30,7 +30,7 @@ RUN set -ex; \
     rm -rf /var/lib/apt/lists/*
 
 ARG USERNAME=debian
-RUN set -ex; \
+RUN set -eux; \
     useradd -g users -m -s /bin/bash "${USERNAME}"; \
     echo "${USERNAME}:${USERNAME}" | chpasswd; \
     echo "${USERNAME}    ALL=(ALL)    NOPASSWD: ALL" | tee "/etc/sudoers.d/${USERNAME}"; \
