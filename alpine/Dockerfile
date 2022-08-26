@@ -28,6 +28,7 @@ RUN set -eux ; \
         less \
         libgcc \
         libstdc++ \
+        moreutils \
         nano \
         sudo \
         tar \

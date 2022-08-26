@@ -29,6 +29,7 @@ RUN set -eux; \
         gnupg2 \
         jq \
         less \
+        moreutils \
         nano \
         sudo \
         ; \

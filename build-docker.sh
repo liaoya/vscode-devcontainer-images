@@ -39,10 +39,9 @@ function check_param() {
 
 function concat_docker_build_arg() {
     if [[ $# -eq 1 ]]; then
-        if [[ -z ${!1+x} ]]; then
-            return
+        if [[ -n ${!1+x} ]]; then
+            export DOCKER_BUILD_OPTS+=(--build-arg "${1}=${!1}")
         fi
-        export DOCKER_BUILD_OPTS+=(--build-arg "${1}=${!1}")
     elif [[ $# -eq 2 ]]; then
         export DOCKER_BUILD_OPTS=(--build-arg "${1}=${2}")
     fi
