@@ -1,6 +1,28 @@
 # README
 
-Create `.devcontainer`, put `Dockerfile` and `devcontainer.json` under it.
+Use these files directly by creating `.devcontainer`, put `Dockerfile` and `devcontainer.json` under it.
+
+## Build
+
+We prefer `http` since it can be cached by squid.
+
+```bash
+./build-docker.sh -w alpine
+./build-docker.sh -w debian
+./build-docker.sh -w ubuntu
+
+# Use http://mirrors.ustc.edu.cn as the mirror server
+env ALPINE_MIRROR_PATH= ./build-docker.sh -w alpine
+env DEBIAN_MIRROR_PATH= ./build-docker.sh -w debian
+env UBUNTU_MIRROR_PATH= ./build-docker.sh -w ubuntu
+
+# Use http://mirrors.aliyun.com as the mirror server
+env ALPINE_MIRROR_PATH=http://mirrors.aliyun.com ./build-docker.sh -w alpine
+env DEBIAN_MIRROR_PATH=http://mirrors.aliyun.com ./build-docker.sh -w debian
+env UBUNTU_MIRROR_PATH=http://mirrors.aliyun.com ./build-docker.sh -w ubuntu
+```
+
+## Code Snippet to install some static tools
 
 ```Dockerfile
 RUN set -eux; \

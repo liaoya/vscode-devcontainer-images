@@ -5,8 +5,9 @@ SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 ARG ALPINE_MIRROR_PATH
 RUN set -eux; \
+    if [ -f /etc/apk/repositories.origin ]; then cp -pr /etc/apk/repositories /etc/apk/repositories.origin; fi; \
+    sed -i -e "s%https://%http://%g" /etc/apk/repositories; \
     if [ -n "${ALPINE_MIRROR_PATH}" ]; then \
-        if [ -f /etc/apk/repositories.origin ]; then cp -pr /etc/apk/repositories /etc/apk/repositories.origin; fi; \
         sed -i -e "s%http://dl-cdn.alpinelinux.org%${ALPINE_MIRROR_PATH}%g" \
             -e "s%https://dl-cdn.alpinelinux.org%${ALPINE_MIRROR_PATH}%g" /etc/apk/repositories; \
     fi

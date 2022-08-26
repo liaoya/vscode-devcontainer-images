@@ -7,8 +7,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 ARG DEBIAN_MIRROR_PATH
 RUN set -eux; \
+    if [ -f /etc/apt/sources.list.origin ]; then cp -pr /etc/apt/sources.list /etc/apt/sources.list.origin; fi; \
+    sed -i -e "s%https://%http://%g" /etc/apt/sources.list; \
     if [ -n "${DEBIAN_MIRROR_PATH}" ]; then \
-        if [ -f /etc/apt/sources.list.origin ]; then cp -pr /etc/apt/sources.list /etc/apt/sources.list.origin; fi; \
         sed -i -e "s%http://deb.debian.org%${DEBIAN_MIRROR_PATH}%g" /etc/apt/sources.list \
             -e "s%https://deb.debian.org%${DEBIAN_MIRROR_PATH}%g" /etc/apt/sources.list; \
     fi
@@ -18,6 +19,7 @@ RUN set -eux; \
 RUN set -eux; \
     apt-get update -y; \
     apt-get install -y --no-install-recommends \
+        apt-utils \
         ca-certificates \
         curl \
         git \
