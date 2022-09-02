@@ -93,14 +93,14 @@ RUN set -eux; \
     rm -fr /usr/local/bin/complete
 
 RUN set -eux; \
-    SHFMT_VERSION=${SHFMT_VERSION:-$(curl -sL https://api.github.com/repos/mvdan/sh/releases/latest | jq -r .tag_name)}; \
-    SHFMT_VERSION=${SHFMT_VERSION:-v3.5.1}; \
-    curl -sL "https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_amd64" -o /usr/local/shfmt
-
-RUN set -eux; \
     curl -sL -o - https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz | tar --strip-components=1 -Ixz -xf - -C /tmp; \
     mv /tmp/shellcheck /usr/local/bin/shellcheck; \
     chown 0:0 /usr/local/bin/shellcheck
+
+RUN set -eux; \
+    SHFMT_VERSION=${SHFMT_VERSION:-$(curl -sL https://api.github.com/repos/mvdan/sh/releases/latest | jq -r .tag_name)}; \
+    SHFMT_VERSION=${SHFMT_VERSION:-v3.5.1}; \
+    curl -sL "https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_amd64" -o /usr/local/shfmt
 
 RUN set -eux; \
     XH_VERSION=${XH_VERSION:-$(curl -sL https://api.github.com/repos/ducaale/xh/releases/latest | jq -r .tag_name)}; \
