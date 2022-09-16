@@ -120,6 +120,29 @@ RUN set -eux; \
     if command -v fish; yq shell-completion fish >/etc/fish/completions/yq.fish; fi
 ```
 
+## Install Python package via PIP
+
+The following is complete example
+
+```Dockerfile
+ARG PIP_INDEX_URL
+ARG PIP_TRUSTED_HOST
+#hadolint ignore=DL3013
+RUN set -ex; \
+    curl -sL https://bootstrap.pypa.io/get-pip.py | python3 - ; \
+    pip install --no-cache-dir ansible-core ansible-lint robotframework robotframework-robocop rf-lint
+```
+
+```bash
+# For ansible
+pip install --no-cache-dir ansible-core ansible-lint
+
+# For robot framework
+pip install --no-cache-dir robotframework robotframework-robocop rf-lint
+```
+
+## Images
+
 ```text
 vsc-thrift-missing-guide-53794073be560573c16401627855c1f0-uid   latest                  57fea9e852f9   15 minutes ago      155MB
 vsc-thrift-missing-guide-53794073be560573c16401627855c1f0       latest                  7fa078ac0b26   16 minutes ago      155MB
