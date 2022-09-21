@@ -8,8 +8,9 @@ RUN set -eux; \
     if [ -f /etc/apk/repositories.origin ]; then cp -pr /etc/apk/repositories /etc/apk/repositories.origin; fi; \
     sed -i -e "s%https://%http://%g" /etc/apk/repositories; \
     if [ -n "${ALPINE_MIRROR_PATH}" ]; then \
-        sed -i -e "s%http://dl-cdn.alpinelinux.org%${ALPINE_MIRROR_PATH}%g" \
-            -e "s%https://dl-cdn.alpinelinux.org%${ALPINE_MIRROR_PATH}%g" /etc/apk/repositories; \
+        sed -e "s%http://dl-cdn.alpinelinux.org%${ALPINE_MIRROR_PATH}%g" \
+            -e "s%https://dl-cdn.alpinelinux.org%${ALPINE_MIRROR_PATH}%g" \
+            -i /etc/apk/repositories; \
     fi
 
 # libgcc and libstdc++ is required by vscode-server

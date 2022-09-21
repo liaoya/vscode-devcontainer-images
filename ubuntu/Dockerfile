@@ -10,14 +10,15 @@ RUN set -eux; \
     if [ -f /etc/apt/sources.list.origin ]; then cp -pr /etc/apt/sources.list /etc/apt/sources.list.origin; fi; \
     sed -i -e "s%https://%http://%g" /etc/apt/sources.list; \
     if [ -n "${UBUNTU_MIRROR_PATH}" ]; then \
-        sed -i -e "s%http://.*archive.ubuntu.com%${UBUNTU_MIRROR_PATH}%g" \
+        sed -e "s%http://.*archive.ubuntu.com%${UBUNTU_MIRROR_PATH}%g" \
             -e "s%http://security.ubuntu.com%${UBUNTU_MIRROR_PATH}%g" \
             -e "s%https://.*archive.ubuntu.com%${UBUNTU_MIRROR_PATH}%g" \
             -e "s%https://security.ubuntu.com%${UBUNTU_MIRROR_PATH}%g" \
-            -e 's/^deb-src/#deb-src/' /etc/apt/sources.list; \
+            -e 's/^deb-src/#deb-src/' \
+            -i /etc/apt/sources.list; \
     fi
 
-# Never put openssh-client otherwise devcontainer will not start up 
+# Never put openssh-client otherwise devcontainer will not start up
 #hadolint ignore=DL3008
 RUN set -eux; \
     apt-get update -y; \
