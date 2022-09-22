@@ -24,6 +24,7 @@ RUN set -eux; \
     apt-get update -y; \
     apt-get install -y --no-install-recommends \
         apt-utils \
+        bzip2 \
         ca-certificates \
         curl \
         git \
@@ -33,6 +34,7 @@ RUN set -eux; \
         moreutils \
         nano \
         sudo \
+        xz-utils \
         ; \
     rm -rf /var/lib/apt/lists/*
 
