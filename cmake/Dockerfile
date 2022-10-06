@@ -53,7 +53,7 @@ RUN set -ex; \
     apt-get install -y --no-install-recommends \
         build-essential \
         cmake \
-        ninja \
+        ninja-build \
         pkg-config \
         ; \
     rm -rf /var/lib/apt/lists/*
