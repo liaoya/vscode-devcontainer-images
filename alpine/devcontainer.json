@@ -5,7 +5,7 @@
       "http_proxy": "${localEnv:http_proxy}",
       "https_proxy": "${localEnv:https_proxy}",
       "no_proxy": "${localEnv:no_proxy}",
-      "BASE_IMAGE": "docker.io/library/alpine:3.16.2",
+      "ALPINE_IMAGE": "docker.io/library/alpine:3.16.2",
       "ALPINE_MIRROR_PATH": "${localEnv:ALPINE_MIRROR_PATH}"
     },
     "dockerfile": "Dockerfile"

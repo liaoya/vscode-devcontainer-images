@@ -1,6 +1,6 @@
-ARG BASE_IMAGE
+ARG ALPINE_IMAGE
 #hadolint ignore=DL3006
-FROM $BASE_IMAGE
+FROM $ALPINE_IMAGE
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 ARG ALPINE_MIRROR_PATH

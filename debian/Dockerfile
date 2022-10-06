@@ -1,6 +1,6 @@
-ARG BASE_IMAGE
+ARG DEBIAN_IMAGE
 #hadolint ignore=DL3006
-FROM $BASE_IMAGE
+FROM $DEBIAN_IMAGE
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV DEBIAN_FRONTEND=noninteractive

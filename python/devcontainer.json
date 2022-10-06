@@ -1,11 +1,11 @@
 {
-  "name": "devcontainer-ubuntu",
+  "name": "devcontainer-python",
   "build": {
     "args": {
       "http_proxy": "${localEnv:http_proxy}",
       "https_proxy": "${localEnv:https_proxy}",
       "no_proxy": "${localEnv:no_proxy}",
-      "BASE_IMAGE": "docker.io/library/ubuntu:jammy-20220815",
+      "UBUNTU_IMAGE": "docker.io/library/ubuntu:jammy-20221003",
       "PIP_INDEX_URL": "${localEnv:PIP_INDEX_URL}",
       "PIP_TRUSTED_HOST": "${localEnv:PIP_TRUSTED_HOST}",
       "UBUNTU_MIRROR_PATH": "${localEnv:UBUNTU_MIRROR_PATH}"
@@ -29,7 +29,7 @@
     }
   },
   "mounts": [
-    "source=devcontainer-ubuntu,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+    "source=devcontainer-python,target=/home/ubuntu/.vscode-server/extensions,type=volume"
   ],
   "remoteUser": "ubuntu"
 }

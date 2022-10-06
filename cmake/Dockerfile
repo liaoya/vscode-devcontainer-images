@@ -46,3 +46,14 @@ RUN set -eux; \
     chmod 0440 "/etc/sudoers.d/${USERNAME}"; \
     mkdir -p "/home/${USERNAME}/.vscode-server/extensions" "/home/${USERNAME}/.vscode-server-insiders/extensions"; \
     chown -R "${USERNAME}:$(id -g ${USERNAME})" "/home/${USERNAME}/.vscode-server" "/home/${USERNAME}/.vscode-server-insiders"
+
+#hadolint ignore=DL3008
+RUN set -ex; \
+    apt-get update -y; \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        ninja \
+        pkg-config \
+        ; \
+    rm -rf /var/lib/apt/lists/*

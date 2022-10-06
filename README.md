@@ -9,11 +9,13 @@ We prefer `http` since it can be cached by squid.
 ```bash
 ./build-docker.sh -w alpine
 ./build-docker.sh -w debian
+./build-docker.sh -w python
 ./build-docker.sh -w ubuntu
 
-# Use http://mirrors.ustc.edu.cn as the mirror server
+# Disable MIRROR_PATH
 env ALPINE_MIRROR_PATH= ./build-docker.sh -w alpine
 env DEBIAN_MIRROR_PATH= ./build-docker.sh -w debian
+env UBUNTU_MIRROR_PATH= ./build-docker.sh -w ubuntu
 env UBUNTU_MIRROR_PATH= ./build-docker.sh -w ubuntu
 
 env DEBIAN_MIRROR_PATH= BASE_IMAGE=docker.io/library/debian:bullseye-backports ./build-docker.sh -w debian
@@ -27,9 +29,9 @@ env UBUNTU_MIRROR_PATH=http://mirrors.aliyun.com ./build-docker.sh -w ubuntu
 Clean the images
 
 ```bash
-docker image ls | grep yaekee/devcontainer-base | tr -s " " | cut -d" " -f1,2 | tr " " ":" | xargs docker image rm -f
+docker image ls | grep yaekee/vsc-devcontainer | tr -s " " | cut -d" " -f1,2 | tr " " ":" | xargs docker image rm -f
 
-docker image ls | grep yaekee/devcontainer-base | tr -s " " | cut -d" " -f3 | xargs docker image rm -f
+docker image ls | grep yaekee/vsc-devcontainer | tr -s " " | cut -d" " -f3 | xargs docker image rm -f
 ```
 
 ## Code Snippet to install some static tools
@@ -112,7 +114,7 @@ RUN set -eux; \
 
 RUN set -eux; \
     YQ_VERSION=${YQ_VERSION:-$(curl -sL https://api.github.com/repos/mikefarah/yq/releases/latest | jq -r .tag_name)}; \
-    YQ_VERSION=${YQ_VERSION:-v4.27.2}; \
+    YQ_VERSION=${YQ_VERSION:-v4.28.1}; \
     curl -sL "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64.tar.gz" -o - | tar -I gzip -xf - -C /tmp; \
     mv /tmp/yq /usr/local/bin/yq; \
     /tmp/install-man-page.sh; \
