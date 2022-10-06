@@ -1,5 +1,5 @@
 {
-  "name": "devcontainer-ubuntu",
+  "name": "devcontainer-cmake",
   "build": {
     "args": {
       "http_proxy": "${localEnv:http_proxy}",
@@ -27,7 +27,7 @@
     }
   },
   "mounts": [
-    "source=devcontainer-ubuntu,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+    "source=devcontainer-cmake,target=/home/ubuntu/.vscode-server/extensions,type=volume"
   ],
   "remoteUser": "ubuntu"
 }

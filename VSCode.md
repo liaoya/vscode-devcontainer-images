@@ -13,9 +13,18 @@
 
 - `redhat.ansible`
 
+### C++
+
+- `ms-vscode.cpptools`
+- `ms-vscode.cpptools-extension-pack`
+
 ### CMake
 
 - `ms-vscode.cmake-tools`
+
+## Makefile
+
+- `ms-vscode.makefile-tools`
 
 ### Python
 
