@@ -25,7 +25,7 @@
     }
   },
   "mounts": [
-    "source=devcontainer-debian,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+    "source=devcontainer-debian,target=/home/debian/.vscode-server/extensions,type=volume"
   ],
   "remoteUser": "debian"
 }

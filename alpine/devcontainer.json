@@ -25,7 +25,7 @@
     }
   },
   "mounts": [
-    "source=devcontainer-alpine,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+    "source=devcontainer-alpine,target=/home/alpine/.vscode-server/extensions,type=volume"
   ],
   "remoteUser": "alpine"
 }
