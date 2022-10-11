@@ -17,10 +17,11 @@
 
 - `ms-vscode.cpptools`
 - `ms-vscode.cpptools-extension-pack`
+- `Kr4is.cpptools-extension-pack`
 
 ### CMake
 
-- `ms-vscode.cmake-tools`
+- `ms-vscode.cmake-tools` (included in `ms-vscode.cpptools-extension-pack`)
 
 ## Makefile
 

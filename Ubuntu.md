@@ -10,3 +10,6 @@ RUN set -ex; \
         ; \
     rm -rf /var/lib/apt/lists/*
 ```
+
+- `docker.io/library/ubuntu:jammy-20221003`
+- `docker.io/library/ubuntu:focal-20220922`

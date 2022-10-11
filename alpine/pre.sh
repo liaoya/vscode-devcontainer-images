@@ -7,4 +7,4 @@ if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; t
 fi
 export ALPINE_IMAGE=${ALPINE_IMAGE:-docker.io/library/alpine:3.16.2}
 ALPINE_VERSION=$(echo "${ALPINE_IMAGE}" | cut -d":" -f2)
-add_image "docker.io/yaekee/vsc-devcontainer:alpine-${ALPINE_VERSION}"
+add_image "docker.io/yaekee/vsc-devcontainer-alpine:${ALPINE_VERSION}"

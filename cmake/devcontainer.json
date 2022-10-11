@@ -20,8 +20,6 @@
       "settings": {},
       "extensions": [
         "EditorConfig.EditorConfig",
-        "exiasr.hadolint",
-        "timonwong.shellcheck",
         "VisualStudioExptTeam.vscodeintellicode"
       ]
     }

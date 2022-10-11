@@ -7,4 +7,4 @@ if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; t
 fi
 export DEBIAN_IMAGE=${DEBIAN_IMAGE:-docker.io/library/debian:stable-20220912-slim}
 DEBIAN_VERSION=$(echo "${DEBIAN_IMAGE}" | cut -d":" -f2)
-add_image "docker.io/yaekee/vsc-devcontainer:debian-${DEBIAN_VERSION}"
+add_image "docker.io/yaekee/vsc-devcontainer-debian:${DEBIAN_VERSION}"

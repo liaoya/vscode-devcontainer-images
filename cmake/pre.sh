@@ -7,4 +7,4 @@ if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; t
 fi
 export UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/library/ubuntu:jammy-20221003}
 UBUNTU_VERSION=$(echo "${UBUNTU_IMAGE}" | cut -d":" -f2)
-add_image "docker.io/yaekee/vsc-devcontainer-cmake:ubuntu-${UBUNTU_VERSION}"
+add_image "docker.io/yaekee/vsc-devcontainer-cmake:${UBUNTU_VERSION}"

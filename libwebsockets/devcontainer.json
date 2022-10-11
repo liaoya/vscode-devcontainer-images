@@ -1,13 +1,12 @@
 {
-  "name": "devcontainer-python",
+  "name": "devcontainer-ubuntu",
   "build": {
     "args": {
       "http_proxy": "${localEnv:http_proxy}",
       "https_proxy": "${localEnv:https_proxy}",
       "no_proxy": "${localEnv:no_proxy}",
-      "UBUNTU_IMAGE": "docker.io/library/ubuntu:jammy-20221003",
-      "PIP_INDEX_URL": "${localEnv:PIP_INDEX_URL}",
-      "PIP_TRUSTED_HOST": "${localEnv:PIP_TRUSTED_HOST}",
+      "LIBWEBSOCKETS_VERSION": "4.0.7",
+      "UBUNTU_IMAGE": "docker.io/library/ubuntu:focal-20220922",
       "UBUNTU_MIRROR_PATH": "${localEnv:UBUNTU_MIRROR_PATH}"
     },
     "dockerfile": "Dockerfile"
@@ -22,12 +21,14 @@
       "settings": {},
       "extensions": [
         "EditorConfig.EditorConfig",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.makefile-tools",
         "VisualStudioExptTeam.vscodeintellicode"
       ]
     }
   },
   "mounts": [
-    "source=devcontainer-python,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+    "source=devcontainer-libwebsockets,target=/home/ubuntu/.vscode-server/extensions,type=volume"
   ],
   "remoteUser": "ubuntu"
 }

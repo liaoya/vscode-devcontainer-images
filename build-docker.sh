@@ -1,11 +1,30 @@
 #!/bin/bash
 #shellcheck disable=SC1091,SC2154,SC2312
+# VERSION: 0.1
+# Usage
+# Put pre.sh and post.sh in the ${WORK_DIR} folder
+
+# pre.sh examples
+# SQUID_VERSION=${SQUID_VERSION:-5.2-r0}
+# _image_prefix=docker.io/somebody
+# add_image "${_image_prefix}/squid:${SQUID_VERSION}"
+# add_image "${_image_prefix}/squid:latest"
 
 set -e
 
 export DOCKER_BUILD_CACHE_DIR=${DOCKER_BUILD_CACHE_DIR:-"${HOME}/.cache/docker/build"}
 declare -a DOCKER_BUILD_OPTS=()
 export DOCKER_BUILD_OPTS
+
+function check_command() {
+    while (($#)); do
+        if ! command -v "${1}"; then
+            echo "Command ${1} is required"
+            return 1
+        fi
+        shift
+    done
+}
 
 function check_dir() {
     while (($#)); do
@@ -42,6 +61,9 @@ function concat_docker_build_arg() {
         if [[ -n ${!1+x} ]]; then
             export DOCKER_BUILD_OPTS+=(--build-arg "${1}=${!1}")
         fi
+        # if [[ -n ${!1} ]]; then
+        #     export DOCKER_BUILD_OPTS+=(--build-arg "${1}=${!1}")
+        # fi
     elif [[ $# -eq 2 ]]; then
         export DOCKER_BUILD_OPTS=(--build-arg "${1}=${2}")
     fi
