@@ -38,8 +38,8 @@ docker image ls | grep yaekee/vsc-devcontainer | tr -s " " | cut -d" " -f3 | xar
 
 ```Dockerfile
 RUN set -eux; \
-    CMAKE_VERSION=${CMAKE_VERSION:-$(curl -sL https://api.github.com/repos/Kitware/CMake/releases | jq -r -S ".[].tag_name" | grep -v '\-rc' | head -n 1)}; \
-    CMAKE_VERSION=${CMAKE_VERSION:-v3.24.1}; \
+    CMAKE_VERSION=${CMAKE_VERSION:-$(curl -sL https://api.github.com/repos/Kitware/CMake/releases | jq -r -S ".[].tag_name" | grep -v '\-rc' | sort -r | head -n 1)}; \
+    CMAKE_VERSION=${CMAKE_VERSION:-v3.24.2}; \
     curl -sL -o- "https://github.com/Kitware/CMake/releases/download/${CMAKE_VERSION}/cmake-${CMAKE_VERSION:1}-linux-x86_64.tar.gz" | sudo tar --strip-components=1 -zxf - -C /usr/local; \
     cp /usr/local/share/bash-completion/completions/* /etc/bash_completion.d/
 
@@ -87,12 +87,13 @@ RUN set -eux; \
 RUN set -eux; \
     RIPGREP_VERSIOIN=${RIPGREP_VERSIOIN:-$(curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r .tag_name)}; \
     RIPGREP_VERSIOIN=${RIPGREP_VERSIOIN:-13.0.0}; \
-    curl -sL "https://github.com/BurntSushi/ripgrep/releases/download/${RIPGREP_VERSIOIN}/ripgrep-${RIPGREP_VERSIOIN}-x86_64-unknown-linux-musl.tar.gz" -o - | tar --strip-components=1 -Igzip -xf - -C /tmp; \
-    mv /tmp/rg /usr/local/bin/rg; \
+    mkdir -p /tmp/ripgrep; \
+    curl -sL "https://github.com/BurntSushi/ripgrep/releases/download/${RIPGREP_VERSIOIN}/ripgrep-${RIPGREP_VERSIOIN}-x86_64-unknown-linux-musl.tar.gz" -o - | tar --strip-components=1 -Igzip -xf - -C /tmp/ripgrep; \
+    mv /tmp/ripgrep/rg /usr/local/bin/rg; \
     chown 0:0 /usr/local/bin/rg; \
-    mv -pr /tmp/complete/rg.bash /etc/bash_completion.d/; \
-    if command -v fish; then mv /tmp/complete/rg.fish /etc/fish/completions/; fi; \
-    rm -fr /usr/local/bin/complete
+    mv -pr /tmp/ripgrep/complete/rg.bash /etc/bash_completion.d/; \
+    if command -v fish; then mv /tmp/ripgrep/complete/rg.fish /etc/fish/completions/; fi; \
+    rm -fr /tmp/ripgrep
 
 RUN set -eux; \
     curl -sL -o - https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz | tar --strip-components=1 -Ixz -xf - -C /tmp; \
