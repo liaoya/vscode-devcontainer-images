@@ -66,4 +66,6 @@ RUN set -eux; \
     curl -sL "https://github.com/warmcat/libwebsockets/archive/refs/tags/${LIBWEBSOCKETS_VERSION}.tar.gz" | tar --strip-components=1 -C /tmp/libwebsockets -zxf -; \
     cmake -S /tmp/libwebsockets -B /tmp/build; \
     cmake --build /tmp/build --target install; \
-    rm -fr /tmp/libwebsockets /tmp/build
+    rm -fr /tmp/libwebsockets /tmp/build; \
+    echo "/usr/local/lib" > /etc/ld.so.conf.d/local.conf; \
+    ldconfig
