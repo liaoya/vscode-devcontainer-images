@@ -1,0 +1,31 @@
+{
+  "name": "devcontainer-sdkman",
+  "build": {
+    "args": {
+      "http_proxy": "${localEnv:http_proxy}",
+      "https_proxy": "${localEnv:https_proxy}",
+      "no_proxy": "${localEnv:no_proxy}",
+      "UBUNTU_IMAGE": "docker.io/library/ubuntu:jammy-20221003",
+      "UBUNTU_MIRROR_PATH": "${localEnv:UBUNTU_MIRROR_PATH}"
+    },
+    "dockerfile": "Dockerfile"
+  },
+  "containerEnv": {
+    "http_proxy": "${localEnv:http_proxy}",
+    "https_proxy": "${localEnv:https_proxy}",
+    "no_proxy": "${localEnv:no_proxy}"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "VisualStudioExptTeam.vscodeintellicode"
+      ]
+    }
+  },
+  "mounts": [
+    "source=devcontainer-sdkman,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+  ],
+  "remoteUser": "ubuntu"
+}

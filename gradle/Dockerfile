@@ -1,4 +1,8 @@
+ARG ECLIPSE_TEMURIN_IMAGE
 ARG UBUNTU_IMAGE
+
+FROM $ECLIPSE_TEMURIN_IMAGE AS eclipse_jdk
+
 #hadolint ignore=DL3006
 FROM $UBUNTU_IMAGE
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -45,28 +49,19 @@ RUN set -eux; \
     echo "${USERNAME}:${USERNAME}" | chpasswd; \
     echo "${USERNAME}    ALL=(ALL)    NOPASSWD: ALL" | tee "/etc/sudoers.d/${USERNAME}"; \
     chmod 0440 "/etc/sudoers.d/${USERNAME}"; \
-    mkdir -p "/home/${USERNAME}/.vscode-server/extensions" "/home/${USERNAME}/.vscode-server-insiders/extensions"; \
-    chown -R "${USERNAME}:$(id -g ${USERNAME})" "/home/${USERNAME}/.vscode-server" "/home/${USERNAME}/.vscode-server-insiders"
+    mkdir -p "/home/${USERNAME}/.vscode-server/extensions" "/home/${USERNAME}/.vscode-server-insiders/extensions" "/home/${USERNAME}/.gradle"; \
+    chown -R "${USERNAME}:$(id -g ${USERNAME})" "/home/${USERNAME}/.vscode-server" "/home/${USERNAME}/.vscode-server-insiders" "/home/${USERNAME}/.gradle"
 
-#hadolint ignore=DL3008
-RUN set -eux; \
-    sed -i 's/^# *deb-src/deb-src/g' /etc/apt/sources.list; \
-    apt-get update -y; \
-    apt-get install -y --no-install-recommends \
-        build-essential \
-        cmake \
-        ninja-build \
-        pkg-config \
-        ; \
-    apt-get build-dep -y libwebsockets; \
-    rm -rf /var/lib/apt/lists/*
+ENV JAVA_HOME=/opt/java/openjdk \
+    GRADLE_HOME=/opt/gradle
 
-ARG LIBWEBSOCKETS_VERSION
+COPY --from=eclipse_jdk $JAVA_HOME $JAVA_HOME
+
+ARG GRADLE_URL
+#hadolint ignore=DL3003,SC2046
 RUN set -eux; \
-    mkdir /tmp/libwebsockets /tmp/build; \
-    curl -sL "https://github.com/warmcat/libwebsockets/archive/refs/tags/${LIBWEBSOCKETS_VERSION}.tar.gz" | tar --strip-components=1 -C /tmp/libwebsockets -zxf -; \
-    cmake -S /tmp/libwebsockets -B /tmp/build; \
-    cmake --build /tmp/build --target install; \
-    rm -fr /tmp/libwebsockets /tmp/build; \
-    echo "/usr/local/lib" > /etc/ld.so.conf.d/local.conf; \
-    ldconfig
+    (cd /opt; curl -sL ${GRADLE_URL} -o- | $JAVA_HOME/bin/jar -xf /dev/stdin; ); \
+    ln -s $(ls -1d /opt/gradle*) /opt/gradle; \
+    chmod a+x /opt/gradle/bin/gradle
+
+ENV PATH="${GRADLE_HOME}/bin:${JAVA_HOME}/bin:${PATH}"

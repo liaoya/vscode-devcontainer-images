@@ -34,6 +34,7 @@ RUN set -eux; \
         moreutils \
         nano \
         sudo \
+        unzip \
         xz-utils \
         ; \
     rm -rf /var/lib/apt/lists/*

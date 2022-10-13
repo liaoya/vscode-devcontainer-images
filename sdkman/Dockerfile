@@ -36,6 +36,7 @@ RUN set -eux; \
         sudo \
         unzip \
         xz-utils \
+        zip \
         ; \
     rm -rf /var/lib/apt/lists/*
 
@@ -48,25 +49,10 @@ RUN set -eux; \
     mkdir -p "/home/${USERNAME}/.vscode-server/extensions" "/home/${USERNAME}/.vscode-server-insiders/extensions"; \
     chown -R "${USERNAME}:$(id -g ${USERNAME})" "/home/${USERNAME}/.vscode-server" "/home/${USERNAME}/.vscode-server-insiders"
 
-#hadolint ignore=DL3008
+ENV SDKMAN_DIR=/opt/sdkman
 RUN set -eux; \
-    sed -i 's/^# *deb-src/deb-src/g' /etc/apt/sources.list; \
-    apt-get update -y; \
-    apt-get install -y --no-install-recommends \
-        build-essential \
-        cmake \
-        ninja-build \
-        pkg-config \
-        ; \
-    apt-get build-dep -y libwebsockets; \
-    rm -rf /var/lib/apt/lists/*
+    curl -sL "https://get.sdkman.io" | bash; \
+    sed -i "/sdkman/Id" "$HOME/.bashrc"; \
+    chown -R "${USERNAME}:$(id -g ${USERNAME})" "${SDKMAN_DIR}"
 
-ARG LIBWEBSOCKETS_VERSION
-RUN set -eux; \
-    mkdir /tmp/libwebsockets /tmp/build; \
-    curl -sL "https://github.com/warmcat/libwebsockets/archive/refs/tags/${LIBWEBSOCKETS_VERSION}.tar.gz" | tar --strip-components=1 -C /tmp/libwebsockets -zxf -; \
-    cmake -S /tmp/libwebsockets -B /tmp/build; \
-    cmake --build /tmp/build --target install; \
-    rm -fr /tmp/libwebsockets /tmp/build; \
-    echo "/usr/local/lib" > /etc/ld.so.conf.d/local.conf; \
-    ldconfig
+COPY sdkman.sh /etc/profile.d/sdkman.sh

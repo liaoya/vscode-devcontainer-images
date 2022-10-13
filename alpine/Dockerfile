@@ -33,6 +33,7 @@ RUN set -eux ; \
         nano \
         sudo \
         tar \
+        unzip \
         xz \
         zip \
     ; \
