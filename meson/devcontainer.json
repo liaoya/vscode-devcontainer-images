@@ -1,11 +1,11 @@
 {
-  "name": "devcontainer-cmake",
+  "name": "devcontainer-meson",
   "build": {
     "args": {
       "http_proxy": "${localEnv:http_proxy}",
       "https_proxy": "${localEnv:https_proxy}",
       "no_proxy": "${localEnv:no_proxy}",
-      "CMAKE_VERSION": "v3.24.2",
+      "MESON_VERSION": "0.63.3",
       "NINJA_VERSION": "v1.11.1",
       "UBUNTU_IMAGE": "docker.io/library/ubuntu:jammy-20221003",
       "UBUNTU_MIRROR_PATH": "${localEnv:UBUNTU_MIRROR_PATH}"
@@ -22,14 +22,14 @@
       "settings": {},
       "extensions": [
         "EditorConfig.EditorConfig",
-        "ms-vscode.cmake-tools",
+        "mesonbuild.mesonbuild",
         "ms-vscode.cpptools",
         "VisualStudioExptTeam.vscodeintellicode"
       ]
     }
   },
   "mounts": [
-    "source=devcontainer-cmake,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+    "source=devcontainer-meson,target=/home/ubuntu/.vscode-server/extensions,type=volume"
   ],
   "remoteUser": "ubuntu"
 }

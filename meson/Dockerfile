@@ -54,18 +54,19 @@ RUN set -ex; \
     apt-get install -y --no-install-recommends \
         build-essential \
         pkg-config \
+        python3 \
         ; \
     rm -rf /var/lib/apt/lists/*
 
-ARG CMAKE_VERSION
-RUN set -eux; \
-    curl -sL -o- "https://github.com/Kitware/CMake/releases/download/${CMAKE_VERSION}/cmake-${CMAKE_VERSION:1}-linux-x86_64.tar.gz" | tar --strip-components=1 -zxf - -C /usr/local; \
-    rm -f /usr/local/cmake-gui /usr/local/ccmake; \
-    cp /usr/local/share/bash-completion/completions/* /etc/bash_completion.d/
-
-ARG NINJA_VERSION
 RUN set -eux; \
     NINJA_VERSION=${NINJA_VERSION:-$(curl -sL https://api.github.com/repos/ninja-build/ninja/releases/latest | jq -r .tag_name)}; \
     NINJA_VERSION=${NINJA_VERSION:-v1.11.1}; \
     curl -sL -o- "https://github.com/ninja-build/ninja/releases/download/${NINJA_VERSION}/ninja-linux.zip" | zcat | sponge /usr/local/bin/ninja; \
     chmod a+x /usr/local/bin/ninja
+
+ARG MESON_VERSION
+ARG PIP_INDEX_URL
+ARG PIP_TRUSTED_HOST
+RUN set -ex; \
+    curl -sL https://bootstrap.pypa.io/get-pip.py | python3 -; \
+    pip3 install --no-cache-dir "meson==${MESON_VERSION}"
