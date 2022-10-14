@@ -23,13 +23,25 @@
 
 - `ms-vscode.cmake-tools` (included in `ms-vscode.cpptools-extension-pack`)
 
-## Makefile
+### Java
+
+- `vscjava.vscode-gradle`
+- `vscjava.vscode-java-pack`
+- `vscjava.vscode-maven`
+- `pivotal.vscode-boot-dev-pack`
+
+### Makefile
 
 - `ms-vscode.makefile-tools`
+
+### Meson
+
+- ``
 
 ### Python
 
 - `ms-python.python`
+- `ms-python.vscode-pylance`
 
 ### Robot
 

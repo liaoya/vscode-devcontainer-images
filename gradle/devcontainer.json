@@ -20,6 +20,8 @@
       "settings": {},
       "extensions": [
         "EditorConfig.EditorConfig",
+        "vscjava.vscode-gradle",
+        "vscjava.vscode-java-pack",
         "VisualStudioExptTeam.vscodeintellicode"
       ]
     }

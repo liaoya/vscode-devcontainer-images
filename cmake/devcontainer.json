@@ -24,6 +24,8 @@
         "EditorConfig.EditorConfig",
         "ms-vscode.cmake-tools",
         "ms-vscode.cpptools",
+        "ms-vscode.makefile-tools",
+        "mwinters-stuff.ninjabuild",
         "VisualStudioExptTeam.vscodeintellicode"
       ]
     }

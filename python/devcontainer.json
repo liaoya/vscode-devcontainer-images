@@ -22,6 +22,8 @@
       "settings": {},
       "extensions": [
         "EditorConfig.EditorConfig",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
         "VisualStudioExptTeam.vscodeintellicode"
       ]
     }

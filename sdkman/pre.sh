@@ -6,5 +6,6 @@ if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; t
     fi
 fi
 export UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/library/ubuntu:jammy-20221003}
-UBUNTU_VERSION=$(echo "${UBUNTU_IMAGE}" | cut -d":" -f2)
-add_image "docker.io/yaekee/vsc-devcontainer-sdkman:${UBUNTU_VERSION}"
+SDKMAN_VERSION=${SDKMAN_VERSION:-curl -sL https://api.github.com/repos/sdkman/sdkman-cli/releases/latest | jq -r .tag_name}
+SDKMAN_VERSION=${SDKMAN_VERSION:-5.16.0}
+add_image "docker.io/yaekee/vsc-devcontainer-sdkman:${SDKMAN_VERSION}"

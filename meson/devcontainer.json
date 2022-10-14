@@ -24,6 +24,7 @@
         "EditorConfig.EditorConfig",
         "mesonbuild.mesonbuild",
         "ms-vscode.cpptools",
+        "mwinters-stuff.ninjabuild",
         "VisualStudioExptTeam.vscodeintellicode"
       ]
     }
