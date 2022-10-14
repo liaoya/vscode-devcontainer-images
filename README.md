@@ -80,9 +80,19 @@ RUN set -eux; \
 
 RUN set -eux; \
     NINJA_VERSION=${NINJA_VERSION:-curl -sL https://api.github.com/repos/ninja-build/ninja/releases/latest | jq -r .tag_name}; \
-    NINJA_VERSION=${NINJA_VERSION:-v1.11.0}; \
+    NINJA_VERSION=${NINJA_VERSION:-v1.11.1}; \
     curl -sL -o- "https://github.com/ninja-build/ninja/releases/download/${NINJA_VERSION}/ninja-linux.zip" | zcat | sponge /usr/local/bin/ninja; \
     chmod a+x /usr/local/bin/ninja
+
+# Build ninja on alpine
+RUN set-eux; \
+    NINJA_VERSION=${NINJA_VERSION:-curl -sL https://api.github.com/repos/ninja-build/ninja/releases/latest | jq -r .tag_name}; \
+    NINJA_VERSION=${NINJA_VERSION:-v1.11.1}; \
+    mkdir -p /tmp/ninja; \
+    curl -sL https://github.com/ninja-build/ninja/archive/refs/tags/v1.11.1.tar.gz | tar --strip-components=1 -C /tmp/ninja -zxf -; \
+    cmake -S /tmp/ninja -B /tmp/ninja/build; \
+    cmake --build /tmp/ninja/build --target install/strip; \
+    rm -fr /tmp/ninja/build
 
 RUN set -eux; \
     RIPGREP_VERSIOIN=${RIPGREP_VERSIOIN:-$(curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r .tag_name)}; \
