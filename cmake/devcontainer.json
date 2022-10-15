@@ -22,6 +22,7 @@
       "settings": {},
       "extensions": [
         "EditorConfig.EditorConfig",
+        "melak47.ninja-syntax",
         "ms-vscode.cmake-tools",
         "ms-vscode.cpptools",
         "ms-vscode.makefile-tools",
