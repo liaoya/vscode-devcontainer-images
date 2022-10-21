@@ -16,7 +16,6 @@ We prefer `http` since it can be cached by squid.
 env ALPINE_MIRROR_PATH= ./build-docker.sh -w alpine
 env DEBIAN_MIRROR_PATH= ./build-docker.sh -w debian
 env UBUNTU_MIRROR_PATH= ./build-docker.sh -w ubuntu
-env UBUNTU_MIRROR_PATH= ./build-docker.sh -w ubuntu
 
 env DEBIAN_MIRROR_PATH= BASE_IMAGE=docker.io/library/debian:bullseye-backports ./build-docker.sh -w debian
 

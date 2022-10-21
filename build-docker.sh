@@ -1,30 +1,11 @@
 #!/bin/bash
 #shellcheck disable=SC1091,SC2154,SC2312
-# VERSION: 0.1
-# Usage
-# Put pre.sh and post.sh in the ${WORK_DIR} folder
-
-# pre.sh examples
-# SQUID_VERSION=${SQUID_VERSION:-5.2-r0}
-# _image_prefix=docker.io/somebody
-# add_image "${_image_prefix}/squid:${SQUID_VERSION}"
-# add_image "${_image_prefix}/squid:latest"
 
 set -e
 
 export DOCKER_BUILD_CACHE_DIR=${DOCKER_BUILD_CACHE_DIR:-"${HOME}/.cache/docker/build"}
 declare -a DOCKER_BUILD_OPTS=()
 export DOCKER_BUILD_OPTS
-
-function check_command() {
-    while (($#)); do
-        if ! command -v "${1}"; then
-            echo "Command ${1} is required"
-            return 1
-        fi
-        shift
-    done
-}
 
 function check_dir() {
     while (($#)); do
@@ -58,12 +39,9 @@ function check_param() {
 
 function concat_docker_build_arg() {
     if [[ $# -eq 1 ]]; then
-        if [[ -n ${!1+x} ]]; then
+        if [[ -n ${!1} ]]; then
             export DOCKER_BUILD_OPTS+=(--build-arg "${1}=${!1}")
         fi
-        # if [[ -n ${!1} ]]; then
-        #     export DOCKER_BUILD_OPTS+=(--build-arg "${1}=${!1}")
-        # fi
     elif [[ $# -eq 2 ]]; then
         export DOCKER_BUILD_OPTS=(--build-arg "${1}=${2}")
     fi
@@ -137,7 +115,7 @@ function check_port_used() {
         if lsof -i:"${port}" >/dev/null; then used=1; fi
     else
         if [[ ! -x /tmp/busybox ]]; then
-            curl -sL https://busybox.net/downloads/binaries/1.35.0-x86_64-linux-musl/busybox -o /tmp/busybox
+            curl -sL https://busybox.net/downloads/binaries/1.31.0-i686-uclibc/busybox -o /tmp/busybox
             chmod a+x /tmp/busybox
         fi
         if /tmp/busybox netstat -tulpn | grep -w "${port}"; then used=1; fi
@@ -231,9 +209,9 @@ fi
 
 # Set ${WORK_DIR} if a Dockerilfe found
 if [[ -z ${WORK_DIR} && -z ${DOCKERFILE} ]]; then
-    if [[ -f "${PWD}/Dockerfile" ]]; then
-        DOCKERFILE=$(readlink -f "${PWD}"/Dockerfile)
-        WORK_DIR=$(readlink -f "${PWD}")
+    if [[ -f "$PWD/Dockerfile" ]]; then
+        DOCKERFILE=$(readlink -f "$PWD"/Dockerfile)
+        WORK_DIR=$(readlink -f "$PWD")
     elif [[ -f "${THIS_DIR}/Dockerfile" ]]; then
         DOCKERFILE=$(readlink -f "${THIS_DIR}"/Dockerfile)
         WORK_DIR=${THIS_DIR}

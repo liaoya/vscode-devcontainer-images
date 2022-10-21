@@ -21,4 +21,4 @@ MESON_VERSION=${MESON_VERSION:-$(curl -sL https://api.github.com/repos/mesonbuil
 MESON_VERSION=${MESON_VERSION:-0.63.3}
 export MESON_VERSION
 
-add_image "docker.io/yaekee/vsc-devcontainer-cmake:${MESON_VERSION}"
+add_image "docker.io/yaekee/vsc-devcontainer-meson:${MESON_VERSION}"

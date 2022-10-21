@@ -27,6 +27,7 @@ RUN set -eux; \
         bzip2 \
         ca-certificates \
         curl \
+        file \
         git \
         gnupg2 \
         jq \
@@ -58,7 +59,7 @@ RUN set -eux; \
         ninja-build \
         pkg-config \
         ; \
-    apt-get build-dep -y libwebsockets; \
+    apt-get build-dep -y --no-install-recommends libwebsockets; \
     rm -rf /var/lib/apt/lists/*
 
 ARG LIBWEBSOCKETS_VERSION

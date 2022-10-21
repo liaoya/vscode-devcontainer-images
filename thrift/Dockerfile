@@ -49,10 +49,25 @@ RUN set -eux; \
     mkdir -p "/home/${USERNAME}/.vscode-server/extensions" "/home/${USERNAME}/.vscode-server-insiders/extensions"; \
     chown -R "${USERNAME}:$(id -g ${USERNAME})" "/home/${USERNAME}/.vscode-server" "/home/${USERNAME}/.vscode-server-insiders"
 
-ENV SDKMAN_DIR=/opt/sdkman
+#hadolint ignore=DL3008
 RUN set -eux; \
-    curl -sL "https://get.sdkman.io" | bash; \
-    sed -i "/sdkman/Id" "$HOME/.bashrc"; \
-    chown -R "${USERNAME}:$(id -g ${USERNAME})" "${SDKMAN_DIR}"
+    apt-get update -y; \
+    apt-get install -y --no-install-recommends \
+        automake \
+        bison \
+        build-essential \
+        flex \
+        gdb \
+        libboost-all-dev \
+        libglib2.0-dev \
+        libssl-dev \
+        libtool \
+        pkg-config; \
+    rm -rf /var/lib/apt/lists/*
 
-COPY sdkman.sh /etc/profile.d/sdkman.sh
+ARG THRIFT_VERSION
+RUN set -uex; \
+    mkdir -p /tmp/thrift; \
+    curl -sL https://dlcdn.apache.org/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz | tar --strip-components=1 -C /tmp/thrift -zxf -; \
+    (cd /tmp/thrift; ./configure; make -j install-strip)
+

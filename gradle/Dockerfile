@@ -31,6 +31,7 @@ RUN set -eux; \
         bzip2 \
         ca-certificates \
         curl \
+        file \
         git \
         gnupg2 \
         jq \
