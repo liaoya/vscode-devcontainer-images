@@ -66,8 +66,8 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 ARG THRIFT_VERSION
+#hadolint ignore=DL3003
 RUN set -uex; \
     mkdir -p /tmp/thrift; \
     curl -sL https://dlcdn.apache.org/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz | tar --strip-components=1 -C /tmp/thrift -zxf -; \
     (cd /tmp/thrift; ./configure; make -j install-strip)
-

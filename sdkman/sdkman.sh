@@ -10,4 +10,3 @@ if [[ -z $(type -t sdk) ]] && [[ -s "/opt/sdkman/bin/sdkman-init.sh" ]]; then
         source "${SDKMAN_DIR}/candidates/springboot/current/shell-completion/bash/spring"
     fi
 fi
-

@@ -1,6 +1,7 @@
 ARG ECLIPSE_TEMURIN_IMAGE
 ARG UBUNTU_IMAGE
 
+#hadolint ignore=DL3006
 FROM $ECLIPSE_TEMURIN_IMAGE AS eclipse_jdk
 
 #hadolint ignore=DL3006
