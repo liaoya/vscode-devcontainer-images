@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export VSC_UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/yaekee/vsc-devcontainer-ubuntu:jammy-20221003}
+export VSC_UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/yaekee/vsc-devcontainer-ubuntu:jammy}
 
 XMAKE_VERSION=${XMAKE_VERSION:-$(curl -sL https://api.github.com/repos/xmake-io/xmake/releases/latest | jq -r .tag_name)}
 XMAKE_VERSION=${XMAKE_VERSION:-v2.7.2}

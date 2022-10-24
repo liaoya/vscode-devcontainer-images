@@ -6,7 +6,7 @@
       "https_proxy": "${localEnv:https_proxy}",
       "no_proxy": "${localEnv:no_proxy}",
       "XMAKE_VERSION": "v2.7.2",
-      "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy-20221003"
+      "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy"
     },
     "dockerfile": "Dockerfile"
   },

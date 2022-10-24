@@ -5,7 +5,7 @@
       "http_proxy": "${localEnv:http_proxy}",
       "https_proxy": "${localEnv:https_proxy}",
       "no_proxy": "${localEnv:no_proxy}",
-      "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy-20221003",
+      "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy",
       "PIP_INDEX_URL": "${localEnv:PIP_INDEX_URL}",
       "PIP_TRUSTED_HOST": "${localEnv:PIP_TRUSTED_HOST}",
     },

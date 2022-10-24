@@ -7,7 +7,7 @@
       "no_proxy": "${localEnv:no_proxy}",
       "CMAKE_VERSION": "v3.24.2",
       "NINJA_VERSION": "v1.11.1",
-      "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy-20221003"
+      "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy"
     },
     "dockerfile": "Dockerfile"
   },
