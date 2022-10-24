@@ -4,14 +4,8 @@ if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; t
     if [[ -z ${UBUNTU_MIRROR_PATH+x} ]]; then
         export UBUNTU_MIRROR_PATH=http://mirrors.ustc.edu.cn
     fi
-    if [[ -z ${PIP_INDEX_URL+x} ]]; then
-        export PIP_INDEX_URL=https://mirrors.ustc.edu.cn/pypi/web/simple
-    fi
-    if [[ -z ${PIP_TRUSTED_HOST+x} ]]; then
-        export PIP_TRUSTED_HOST=mirrors.ustc.edu.cn
-    fi
 fi
-export UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/library/ubuntu:jammy-20221003}
+export VSC_UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/yaekee/vsc-devcontainer-ubuntu:jammy-20221003}
 
 NINJA_VERSION=${NINJA_VERSION:-$(curl -sL https://api.github.com/repos/ninja-build/ninja/releases/latest | jq -r .tag_name)}
 NINJA_VERSION=${NINJA_VERSION:-v1.11.1}

@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG UBUNTU_MIRROR_PATH
+ARG UBUNTU_MIRROR_PATH=""
 RUN set -eux; \
     if [ -f /etc/apt/sources.list.origin ]; then cp -pr /etc/apt/sources.list /etc/apt/sources.list.origin; fi; \
     sed -i -e "s%https://%http://%g" /etc/apt/sources.list; \
@@ -62,6 +62,3 @@ RUN set -ex; \
 
 ARG PIP_INDEX_URL
 ARG PIP_TRUSTED_HOST
-#hadolint ignore=DL3013
-RUN set -ex; \
-    curl -sL https://bootstrap.pypa.io/get-pip.py | python3 -

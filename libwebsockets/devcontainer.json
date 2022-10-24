@@ -6,8 +6,7 @@
       "https_proxy": "${localEnv:https_proxy}",
       "no_proxy": "${localEnv:no_proxy}",
       "LIBWEBSOCKETS_VERSION": "4.0.7",
-      "UBUNTU_IMAGE": "docker.io/library/ubuntu:focal-20220922",
-      "UBUNTU_MIRROR_PATH": "${localEnv:UBUNTU_MIRROR_PATH}"
+      "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy-20221003"
     },
     "dockerfile": "Dockerfile"
   },

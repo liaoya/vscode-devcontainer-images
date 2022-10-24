@@ -3,7 +3,7 @@ ARG ALPINE_IMAGE
 FROM $ALPINE_IMAGE
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
-ARG ALPINE_MIRROR_PATH
+ARG ALPINE_MIRROR_PATH=""
 RUN set -eux; \
     if [ -f /etc/apk/repositories.origin ]; then cp -pr /etc/apk/repositories /etc/apk/repositories.origin; fi; \
     sed -i -e "s%https://%http://%g" /etc/apk/repositories; \
@@ -31,6 +31,7 @@ RUN set -eux ; \
         libstdc++ \
         moreutils \
         nano \
+        python3 \
         sudo \
         tar \
         unzip \
@@ -39,6 +40,11 @@ RUN set -eux ; \
     ; \
     rm -rf /var/lib/apk/lists/*; \
     rm /var/cache/apk/*
+
+#hadolint ignore=DL3013
+RUN set -ex; \
+    curl -sL https://bootstrap.pypa.io/get-pip.py | python3 -; \
+    pip3 install --no-cache-dir pre-commit
 
 ARG USERNAME=alpine
 RUN set -eux ; \

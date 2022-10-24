@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG DEBIAN_MIRROR_PATH
+ARG DEBIAN_MIRROR_PATH=""
 RUN set -eux; \
     if [ -f /etc/apt/sources.list.origin ]; then cp -pr /etc/apt/sources.list /etc/apt/sources.list.origin; fi; \
     sed -i -e "s%https://%http://%g" /etc/apt/sources.list; \
@@ -31,11 +31,18 @@ RUN set -eux; \
         less \
         moreutils \
         nano \
+        python3 \
+        python3-distutils \
         sudo \
         unzip \
         xz-utils \
         ; \
     rm -rf /var/lib/apt/lists/*
+
+#hadolint ignore=DL3013
+RUN set -ex; \
+    curl -sL https://bootstrap.pypa.io/get-pip.py | python3 -; \
+    pip3 install --no-cache-dir pre-commit
 
 ARG USERNAME=debian
 RUN set -eux; \

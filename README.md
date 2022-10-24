@@ -9,7 +9,6 @@ We prefer `http` since it can be cached by squid.
 ```bash
 ./build-docker.sh -w alpine
 ./build-docker.sh -w debian
-./build-docker.sh -w python
 ./build-docker.sh -w ubuntu
 
 # Disable MIRROR_PATH

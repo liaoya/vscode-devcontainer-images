@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; then
-    if [[ -z ${UBUNTU_MIRROR_PATH+x} ]]; then
-        export UBUNTU_MIRROR_PATH=http://mirrors.ustc.edu.cn
-    fi
-fi
-export UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/library/ubuntu:jammy-20221003}
+export VSC_UBUNTU_IMAGE=${VSC_UBUNTU_IMAGE:-docker.io/yaekee/vsc-devcontainer-ubuntu:jammy-20221003}
 
 CMAKE_VERSION=${CMAKE_VERSION:-$(curl -sL https://api.github.com/repos/Kitware/CMake/releases | jq -r -S ".[].tag_name" | grep -v '\-rc' | sort -r | head -n 1)}
 CMAKE_VERSION=${CMAKE_VERSION:-v3.24.2}

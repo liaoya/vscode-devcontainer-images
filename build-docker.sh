@@ -170,17 +170,22 @@ function _print_help() {
     cat <<EOF
 $(basename "${BASH_SOURCE[0]}") OPTIONS
     -h, show the help
+    -v, verbose mode
     -f, the Dockerfile name, it can be full path. ${DOCKERFILE:+the default is ${DOCKERFILE}}
     -n, the full path as image name including tag, can be multiple.
     -w, the working directory for docker build. ${WORK_DIR:+the default is ${WORK_DIR}}
 EOF
 }
 
-while getopts :hf:n:w: OPTION; do
+while getopts :hvf:n:w: OPTION; do
     case ${OPTION} in
     h)
         _print_help
         exit 0
+        ;;
+    v)
+        set -x
+        export PS4='+(${BASH_SOURCE[0]}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
         ;;
     f)
         DOCKERFILE=$(readlink -f "${OPTARG}")

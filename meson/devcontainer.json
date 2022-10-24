@@ -7,8 +7,7 @@
       "no_proxy": "${localEnv:no_proxy}",
       "MESON_VERSION": "0.63.3",
       "NINJA_VERSION": "v1.11.1",
-      "UBUNTU_IMAGE": "docker.io/library/ubuntu:jammy-20221003",
-      "UBUNTU_MIRROR_PATH": "${localEnv:UBUNTU_MIRROR_PATH}"
+      "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy-20221003"
     },
     "dockerfile": "Dockerfile"
   },
