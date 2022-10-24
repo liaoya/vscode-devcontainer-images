@@ -10,7 +10,7 @@ We prefer `http` since it can be cached by squid.
 ./build-docker.sh -w alpine
 ./build-docker.sh -w debian
 ./build-docker.sh -w ubuntu
-env UBUNTU_IMAGE=docker.io/library/ubuntu:focal-20220922 ./build-docker.sh -w debian
+env UBUNTU_IMAGE=docker.io/library/ubuntu:focal-20220922 ./build-docker.sh -w ubuntu
 
 # Disable MIRROR_PATH in China
 env ALPINE_MIRROR_PATH= ./build-docker.sh -w alpine
