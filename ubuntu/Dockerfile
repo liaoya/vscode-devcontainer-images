@@ -40,6 +40,7 @@ RUN set -eux; \
         moreutils \
         nano \
         python3 \
+        python3-distutils \
         sudo \
         unzip \
         xz-utils \
