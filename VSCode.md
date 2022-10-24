@@ -25,8 +25,9 @@
 
 ### Java
 
+- `vscjava.vscode-java-pack` contain many extensions
+- `redhat.java`
 - `vscjava.vscode-gradle`
-- `vscjava.vscode-java-pack`
 - `vscjava.vscode-maven`
 - `pivotal.vscode-boot-dev-pack`
 
@@ -36,7 +37,7 @@
 
 ### Meson
 
-- ``
+- `mesonbuild.mesonbuild`
 
 ### Python
 
@@ -46,3 +47,7 @@
 ### Robot
 
 - `robocorp.robotframework-lsp`
+
+### XMake
+
+- `tboox.xmake-vscode`

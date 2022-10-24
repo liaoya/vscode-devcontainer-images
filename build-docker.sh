@@ -1,11 +1,63 @@
 #!/bin/bash
 #shellcheck disable=SC1091,SC2154,SC2312
+# VERSION: 0.1.3
+# Usage
+# Put pre.sh and post.sh in the ${WORK_DIR} folder
+
+# pre.sh examples
+# SQUID_VERSION=${SQUID_VERSION:-5.2-r0}
+# _image_prefix=docker.io/somebody
+# add_image "${_image_prefix}/squid:${SQUID_VERSION}"
+# add_image "${_image_prefix}/squid:latest"
+
+# download_url example
+# THRIFT_VERSION=${THRIFT_VERSION:-0.17.0}
+# download_url "https://dlcdn.apache.org/thrift/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}.tar.gz" thrift
+# THRIFT_URL=http://${HOSTNAME}:${HTTP_PORT}/thrift/thrift-${THRIFT_VERSION}.tar.gz
+# Does not change HOSTNAME and HTTP_PORT
+# THRIFT_URL=http://${HOSTNAME}:${HTTP_PORT}/thrift/thrift-${THRIFT_VERSION}.tar.gz
+# export THRIFT_URL
+
+# Multi Dockerfile example
+# _this_dir=$(readlink -f "${BASH_SOURCE[0]}")
+# _this_dir=$(dirname "${_this_dir}")
+# if [[ ${DOCKERFILE} == "${_this_dir}/Dockerfile.ubuntu" ]]; then
+# ...
+# elif [[ ${DOCKERFILE} == "${_this_dir}/Dockerfile" ]]; then
+# ...
+# fi
+# unset -v _this_dir
 
 set -e
 
 export DOCKER_BUILD_CACHE_DIR=${DOCKER_BUILD_CACHE_DIR:-"${HOME}/.cache/docker/build"}
 declare -a DOCKER_BUILD_OPTS=()
 export DOCKER_BUILD_OPTS
+
+trap hook::_exec_exit_hook EXIT
+function hook::_exec_exit_hook() {
+    local _idx
+    for ((_idx = ${#_EXIT_HOOKS[@]} - 1; _idx >= 0; _idx--)); do
+        eval "${_EXIT_HOOKS[_idx]}" || true
+    done
+}
+
+function hook::add_exit_hook() {
+    while (($#)); do
+        _EXIT_HOOKS+=("$1")
+        shift
+    done
+}
+
+function check_command() {
+    while (($#)); do
+        if ! command -v "${1}" >/dev/null 2>&1; then
+            echo "Command ${1} is required"
+            return 1
+        fi
+        shift
+    done
+}
 
 function check_dir() {
     while (($#)); do
@@ -39,9 +91,12 @@ function check_param() {
 
 function concat_docker_build_arg() {
     if [[ $# -eq 1 ]]; then
-        if [[ -n ${!1} ]]; then
+        if [[ -n ${!1+x} ]]; then
             export DOCKER_BUILD_OPTS+=(--build-arg "${1}=${!1}")
         fi
+        # if [[ -n ${!1} ]]; then
+        #     export DOCKER_BUILD_OPTS+=(--build-arg "${1}=${!1}")
+        # fi
     elif [[ $# -eq 2 ]]; then
         export DOCKER_BUILD_OPTS=(--build-arg "${1}=${2}")
     fi
@@ -77,54 +132,43 @@ function start_http_server() {
     local folder port
     folder=$1
     port=$2
-    if [[ -n $(command -v python3) ]]; then
+    if command -v python3 >/dev/null 2>&1; then
+        eval nohup python3 -m http.server --directory "${folder}" "${port}" >/dev/null 2>&1 &
+    elif command -v python2 >/dev/null 2>&1; then
         #shellcheck disable=SC2164
         (
             cd "${folder}"
-            eval nohup python3 -m http.server "${port}" 1>/dev/null 2>&1 &
-        )
-    elif [[ -n $(command -v python2) ]]; then
-        #shellcheck disable=SC2164
-        (
-            cd "${folder}"
-            eval nohup python2 -m SimpleHTTPServer "${port}" 1>/dev/null 2>&1 &
+            eval nohup python2 -m SimpleHTTPServer "${port}" >/dev/null 2>&1 &
         )
     else
-        echo "Can't find python"
+        echo "Can't start a http server"
         exit 1
     fi
-}
-
-function stop_http_server() {
-    local python_exec
-    python_exec=$(find /usr/bin -type f -iname "python3.*" | grep -v "m$" | sort | head -1)
-    if [[ -z ${python_exec} ]]; then
-        python_exec=$(find /usr/bin -type f -iname "python2.*" | grep -v "m$" | sort | head -1)
-    fi
-    #shellcheck disable=SC2046
-    pkill $(basename "${python_exec}") || true
+    hook::add_exit_hook "fuser -k ${HTTP_PORT}/tcp"
 }
 
 function check_port_used() {
     local port used
     port=$1
     used=0
-    if [[ -n $(command -v netstat) ]]; then
-        if netstat -tulpn | grep -w "${port}"; then used=1; fi
-    elif [[ -n $(command -v lsof) ]]; then
+    if command -v lsof >/dev/null 2>&1; then
         if lsof -i:"${port}" >/dev/null; then used=1; fi
+    elif command -v ss >/dev/null 2>&1; then
+        if ss -tl | grep -w "${port}"; then used=1; fi
+    elif command -v netstat >/dev/null 2>&1; then
+        if netstat -tl | grep -w "${port}"; then used=1; fi
     else
         if [[ ! -x /tmp/busybox ]]; then
-            curl -sL https://busybox.net/downloads/binaries/1.31.0-i686-uclibc/busybox -o /tmp/busybox
+            curl -sL https://busybox.net/downloads/binaries/1.35.0-x86_64-linux-musl/busybox -o /tmp/busybox
             chmod a+x /tmp/busybox
         fi
-        if /tmp/busybox netstat -tulpn | grep -w "${port}"; then used=1; fi
+        if /tmp/busybox netstat -tl | grep -w "${port}"; then used=1; fi
     fi
     return "${used}"
 }
 
 # We always use IP since it's accesible by container
-if [[ -n $(command -v hostname) ]]; then
+if command -v hostname >/dev/null 2>&1; then
     if hostname -f | grep -s -q "\."; then
         HOSTNAME=$(hostname -f)
     else
@@ -134,6 +178,8 @@ elif [[ -f /.dockerenv ]]; then
     # Handle Docker In Docker
     HOSTNAME=$(ip -o -4 addr show eth0 | grep -o "inet [0-9]*\.[0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*")
 fi
+
+check_command fuser python3
 
 DOCKERFILE=${DOCKERFILE:-""}
 declare -a IMAGE_NAME=()
@@ -214,9 +260,9 @@ fi
 
 # Set ${WORK_DIR} if a Dockerilfe found
 if [[ -z ${WORK_DIR} && -z ${DOCKERFILE} ]]; then
-    if [[ -f "$PWD/Dockerfile" ]]; then
-        DOCKERFILE=$(readlink -f "$PWD"/Dockerfile)
-        WORK_DIR=$(readlink -f "$PWD")
+    if [[ -f "${PWD}/Dockerfile" ]]; then
+        DOCKERFILE=$(readlink -f "${PWD}"/Dockerfile)
+        WORK_DIR=$(readlink -f "${PWD}")
     elif [[ -f "${THIS_DIR}/Dockerfile" ]]; then
         DOCKERFILE=$(readlink -f "${THIS_DIR}"/Dockerfile)
         WORK_DIR=${THIS_DIR}
@@ -272,8 +318,4 @@ docker build --force-rm "${DOCKER_BUILD_OPTS[@]}" -f "${DOCKERFILE}" "${WORK_DIR
 # source the file so that it can export some values
 if [[ -f "${DOCKERFILE_DIR}/post.sh" ]]; then
     source "${DOCKERFILE_DIR}/post.sh"
-fi
-
-if [[ -n ${HTTP_FOLDER} ]]; then
-    stop_http_server
 fi

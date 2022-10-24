@@ -29,7 +29,7 @@ env UBUNTU_MIRROR_PATH=http://mirrors.aliyun.com ./build-docker.sh -w ubuntu
 Clean the images
 
 ```bash
-docker image ls | grep yaekee/vsc-devcontainer | tr -s " " | cut -d" " -f1,2 | tr " " ":" | xargs docker image rm -f
+docker image ls | grep yaekee/vsc-devcontainer | tr -s " " | cut -d" " -f1,2 | sed "s/ /:/g" | xargs docker image rm -f
 
 docker image ls | grep yaekee/vsc-devcontainer | tr -s " " | cut -d" " -f3 | xargs docker image rm -f
 ```

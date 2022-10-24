@@ -15,7 +15,8 @@ RUN set -eux; \
         libglib2.0-dev \
         libssl-dev \
         libtool \
-        pkg-config; \
+        pkg-config \
+        ; \
     rm -rf /var/lib/apt/lists/*
 
 #hadolint ignore=DL3008,DL4006,SC3057
