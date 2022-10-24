@@ -1,9 +1,6 @@
 #!/bin/bash
 
 if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; then
-    if [[ -z ${UBUNTU_MIRROR_PATH+x} ]]; then
-        export UBUNTU_MIRROR_PATH=http://mirrors.ustc.edu.cn
-    fi
     if [[ -z ${PIP_INDEX_URL+x} ]]; then
         export PIP_INDEX_URL=https://mirrors.ustc.edu.cn/pypi/web/simple
     fi

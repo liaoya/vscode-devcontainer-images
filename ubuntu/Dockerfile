@@ -23,13 +23,18 @@ RUN set -eux; \
 RUN set -eux; \
     apt-get update -y; \
     apt-get install -y --no-install-recommends \
+        ca-certificates \
+        gnupg2 \
+        ; \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E996735927E427A733BB653E374C7797FB006459; \
+    echo "deb http://ppa.launchpad.net/savoury1/backports/ubuntu $(grep UBUNTU_CODENAME /etc/os-release | cut -d= -f2) main" > /etc/apt/sources.list.d/ppa_savoury1_backports.list; \
+    apt-get update -y; \
+    apt-get install -y --no-install-recommends \
         apt-utils \
         bzip2 \
-        ca-certificates \
         curl \
         file \
         git \
-        gnupg2 \
         jq \
         less \
         moreutils \

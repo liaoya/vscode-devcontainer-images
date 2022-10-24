@@ -1,0 +1,35 @@
+{
+  "name": "devcontainer-meson",
+  "build": {
+    "args": {
+      "http_proxy": "${localEnv:http_proxy}",
+      "https_proxy": "${localEnv:https_proxy}",
+      "no_proxy": "${localEnv:no_proxy}",
+      "XMAKE_VERSION": "v2.7.2",
+      "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy-20221003"
+    },
+    "dockerfile": "Dockerfile"
+  },
+  "containerEnv": {
+    "http_proxy": "${localEnv:http_proxy}",
+    "https_proxy": "${localEnv:https_proxy}",
+    "no_proxy": "${localEnv:no_proxy}"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "melak47.ninja-syntax",
+        "ms-vscode.cpptools",
+        "mwinters-stuff.ninjabuild",
+        "tboox.xmake-vscode",
+        "VisualStudioExptTeam.vscodeintellicode"
+      ]
+    }
+  },
+  "mounts": [
+    "source=devcontainer-xmake,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+  ],
+  "remoteUser": "ubuntu"
+}
