@@ -80,6 +80,11 @@ RUN set -eux; \
     mv /tmp/lazygit /usr/local/lazygit
 
 RUN set -eux; \
+    curl -sL -o /usr/local/bin/muon https://muon.build/releases/v0.1.0/muon-0.1.0-amd64-linux-static-small; \
+    curl -sL -o /usr/local/bin/muon-static https://muon.build/releases/v0.1.0/muon-0.1.0-amd64-linux-static; \
+    chmod a+x /usr/local/bin/muon-static /usr/local/bin/muon
+
+RUN set -eux; \
     NINJA_VERSION=${NINJA_VERSION:-$(curl -sL https://api.github.com/repos/ninja-build/ninja/releases/latest | jq -r .tag_name)}; \
     NINJA_VERSION=${NINJA_VERSION:-v1.11.1}; \
     curl -sL -o- "https://github.com/ninja-build/ninja/releases/download/${NINJA_VERSION}/ninja-linux.zip" | zcat | sponge /usr/local/bin/ninja; \
