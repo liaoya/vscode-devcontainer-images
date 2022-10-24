@@ -8,6 +8,6 @@ if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; t
         export PIP_TRUSTED_HOST=mirrors.ustc.edu.cn
     fi
 fi
-export VSC_UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/yaekee/vsc-devcontainer-ubuntu:jammy}
+export VSC_UBUNTU_IMAGE=${VSC_UBUNTU_IMAGE:-docker.io/yaekee/vsc-devcontainer-ubuntu:jammy}
 UBUNTU_VERSION=$(echo "${UBUNTU_IMAGE}" | cut -d":" -f2)
 add_image "docker.io/yaekee/vsc-devcontainer-python:${UBUNTU_VERSION}"

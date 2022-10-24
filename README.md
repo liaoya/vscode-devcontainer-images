@@ -15,6 +15,7 @@ We prefer `http` since it can be cached by squid.
 env ALPINE_MIRROR_PATH= ./build-docker.sh -w alpine
 env DEBIAN_MIRROR_PATH= ./build-docker.sh -w debian
 env UBUNTU_MIRROR_PATH= ./build-docker.sh -w ubuntu
+env UBUNTU_IMAGE=docker.io/library/ubuntu:focal-20220922 UBUNTU_MIRROR_PATH= ./build-docker.sh -w ubuntu
 
 env DEBIAN_MIRROR_PATH= BASE_IMAGE=docker.io/library/debian:bullseye-backports ./build-docker.sh -w debian
 
@@ -38,8 +39,8 @@ docker image ls | grep yaekee/vsc-devcontainer | tr -s " " | cut -d" " -f3 | xar
 RUN set -eux; \
     CMAKE_VERSION=${CMAKE_VERSION:-$(curl -sL https://api.github.com/repos/Kitware/CMake/releases | jq -r -S ".[].tag_name" | grep -v '\-rc' | sort -r | head -n 1)}; \
     CMAKE_VERSION=${CMAKE_VERSION:-v3.24.2}; \
-    curl -sL -o- "https://github.com/Kitware/CMake/releases/download/${CMAKE_VERSION}/cmake-${CMAKE_VERSION:1}-linux-x86_64.tar.gz" | sudo tar --strip-components=1 -zxf - -C /usr/local; \
-    rm -f /usr/local/cmake-gui /usr/local/ccmake; \
+    curl -sL -o- "https://github.com/Kitware/CMake/releases/download/${CMAKE_VERSION}/cmake-${CMAKE_VERSION:1}-linux-x86_64.tar.gz" | tar --strip-components=1 -zxf - -C /usr/local; \
+    rm -f /usr/local/bin/cmake-gui /usr/local/bin/ccmake; \
     cp /usr/local/share/bash-completion/completions/* /etc/bash_completion.d/
 
 RUN set -eux; \
@@ -88,7 +89,7 @@ RUN set-eux; \
     NINJA_VERSION=${NINJA_VERSION:-$(curl -sL https://api.github.com/repos/ninja-build/ninja/releases/latest | jq -r .tag_name)}; \
     NINJA_VERSION=${NINJA_VERSION:-v1.11.1}; \
     mkdir -p /tmp/ninja; \
-    curl -sL https://github.com/ninja-build/ninja/archive/refs/tags/v1.11.1.tar.gz | tar --strip-components=1 -C /tmp/ninja -zxf -; \
+    curl -sL "https://github.com/ninja-build/ninja/archive/refs/tags/${NINJA_VERSION}.tar.gz" | tar --strip-components=1 -C /tmp/ninja -zxf -; \
     cmake -S /tmp/ninja -B /tmp/ninja/build; \
     cmake --build /tmp/ninja/build --target install/strip; \
     rm -fr /tmp/ninja/build

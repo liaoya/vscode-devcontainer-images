@@ -18,7 +18,7 @@ ARG CMAKE_VERSION
 #hadolint ignore=DL4006,SC3057
 RUN set -eux; \
     curl -sL -o- "https://github.com/Kitware/CMake/releases/download/${CMAKE_VERSION}/cmake-${CMAKE_VERSION:1}-linux-x86_64.tar.gz" | tar --strip-components=1 -zxf - -C /usr/local; \
-    rm -f /usr/local/cmake-gui /usr/local/ccmake; \
+    rm -f /usr/local/bin/cmake-gui /usr/local/bin/ccmake; \
     cp /usr/local/share/bash-completion/completions/* /etc/bash_completion.d/
 
 ARG NINJA_VERSION
