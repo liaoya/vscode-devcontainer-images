@@ -40,11 +40,11 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 #hadolint ignore=DL3013
-RUN set -ex; \
+RUN set -eux; \
     curl -sL https://bootstrap.pypa.io/get-pip.py | python3 -; \
-    pip3 install --no-cache-dir pre-commit
+    pip3 install --prefix /usr/local --no-cache-dir pre-commit
 
-ARG USERNAME=debian
+ARG USERNAME=vscode
 RUN set -eux; \
     useradd -g users -m -s /bin/bash "${USERNAME}"; \
     echo "${USERNAME}:${USERNAME}" | chpasswd; \

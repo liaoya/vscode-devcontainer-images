@@ -1,5 +1,7 @@
 # README
 
+The similar work of devcontainers in <https://github.com/devcontainers/images>
+
 Use these files directly by creating `.devcontainer`, put `Dockerfile` and `devcontainer.json` under it.
 
 ## Build
@@ -100,6 +102,13 @@ RUN set-eux; \
     cmake --build /tmp/ninja/build --target install/strip; \
     rm -fr /tmp/ninja/build
 
+#hadolint ignore=SC2016
+RUN set -eux; \
+    POWERLINE_GO_VERSION=${POWERLINE_GO_VERSION:-$(curl -sL https://api.github.com/repos/justjanne/powerline-go/releases/latest | jq -r .tag_name)}; \
+    curl -sL "https://github.com/justjanne/powerline-go/releases/download/${POWERLINE_GO_VERSION}/powerline-go-linux-amd64" -o /usr/local/bin/powerline-go; \
+    chmod a+x /usr/local/bin/powerline-go; \
+    echo -e '#!/bin/bash\n\nif command -v powerline-go 1>/dev/null 2>&1 && [[ $TERM == xterm-256 || $TERM != putty-256 ]]; then\n    function _update_ps1() {\n        PS1="$(powerline-go -cwd-max-depth 5 -cwd-max-dir-size 50 -error $? -hostname-only-if-ssh -jobs $(jobs -p | wc -l) -newline)"\n    }\n    if [[ ! $PROMPT_COMMAND =~ _update_ps1 ]]; then\n        PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n    fi\nfi' >/etc/profile.d/powerline-go.sh
+
 RUN set -eux; \
     RIPGREP_VERSIOIN=${RIPGREP_VERSIOIN:-$(curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r .tag_name)}; \
     RIPGREP_VERSIOIN=${RIPGREP_VERSIOIN:-13.0.0}; \
@@ -112,6 +121,13 @@ RUN set -eux; \
     rm -fr /tmp/ripgrep
 
 RUN set -eux; \
+    RIPGREP_VERSION=$(curl "${CURL_OPTS[@]}" -s -n https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r '.tag_name'); \
+    RIPGREP_VERSION=${RIPGREP_VERSION:-13.0.0}; \
+    curl -sL "https://github.com/BurntSushi/ripgrep/releases/download/${RIPGREP_VERSION}/ripgrep_${RIPGREP_VERSION}_amd64.deb" -o "/tmp/ripgrep_${RIPGREP_VERSION}_amd64.deb"; \
+    dpkg -i "/tmp/ripgrep_${RIPGREP_VERSION}_amd64.deb"; \
+    cp /usr/share/bash-completion/completions/rg /etc/bash_completion.d/rg.bash
+
+RUN set -eux; \
     curl -sL -o - https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz | tar --strip-components=1 -Ixz -xf - -C /tmp; \
     mv /tmp/shellcheck /usr/local/bin/shellcheck; \
     chown 0:0 /usr/local/bin/shellcheck
@@ -120,6 +136,12 @@ RUN set -eux; \
     SHFMT_VERSION=${SHFMT_VERSION:-$(curl -sL https://api.github.com/repos/mvdan/sh/releases/latest | jq -r .tag_name)}; \
     SHFMT_VERSION=${SHFMT_VERSION:-v3.5.1}; \
     curl -sL "https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_amd64" -o /usr/local/shfmt
+
+#hadolint ignore=SC2016,SC3036
+RUN set -eux; \
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes; \
+    echo -e 'command_timeout=1000\n\n[localip]\ndisabled=true\n\n[shell]\ndisabled=false\nstyle="black bold"' >/etc/starship.toml; \
+    echo -e '#!/bin/bash\n\nif [[ $TERM != linux && $TERM != vt220 && $(command -v starship) ]]; then\n    eval "$(starship init bash)"\nfi' >/etc/profile.d/starship.sh
 
 RUN set -eux; \
     XH_VERSION=${XH_VERSION:-$(curl -sL https://api.github.com/repos/ducaale/xh/releases/latest | jq -r .tag_name)}; \
@@ -131,7 +153,7 @@ RUN set -eux; \
 
 RUN set -eux; \
     YQ_VERSION=${YQ_VERSION:-$(curl -sL https://api.github.com/repos/mikefarah/yq/releases/latest | jq -r .tag_name)}; \
-    YQ_VERSION=${YQ_VERSION:-v4.28.1}; \
+    YQ_VERSION=${YQ_VERSION:-v4.30.4}; \
     curl -sL "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64.tar.gz" -o - | tar -I gzip -xf - -C /tmp; \
     mv /tmp/yq /usr/local/bin/yq; \
     /tmp/install-man-page.sh; \

@@ -40,7 +40,7 @@ RUN set -eux; \
         ; \
     rm -rf /var/lib/apt/lists/*
 
-ARG USERNAME=ubuntu
+ARG USERNAME=vscode
 RUN set -eux; \
     useradd -g users -m -s /bin/bash "${USERNAME}"; \
     echo "${USERNAME}:${USERNAME}" | chpasswd; \
@@ -50,7 +50,7 @@ RUN set -eux; \
     chown -R "${USERNAME}:$(id -g ${USERNAME})" "/home/${USERNAME}/.vscode-server" "/home/${USERNAME}/.vscode-server-insiders"
 
 #hadolint ignore=DL3008
-RUN set -ex; \
+RUN set -eux; \
     apt-get update -y; \
     apt-get install -y --no-install-recommends \
         build-essential \

@@ -40,7 +40,7 @@ RUN set -eux; \
         ; \
     rm -rf /var/lib/apt/lists/*
 
-ARG USERNAME=ubuntu
+ARG USERNAME=vscode
 RUN set -eux; \
     useradd -g users -m -s /bin/bash "${USERNAME}"; \
     echo "${USERNAME}:${USERNAME}" | chpasswd; \

@@ -3,7 +3,7 @@ ARG VSC_UBUNTU_IMAGE
 FROM $VSC_UBUNTU_IMAGE
 
 #hadolint ignore=DL3008
-RUN set -ex; \
+RUN set -eux; \
     apt-get update -y; \
     apt-get install -y --no-install-recommends \
         automake \

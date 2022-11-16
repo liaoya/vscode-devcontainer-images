@@ -1,7 +1,7 @@
 # Ubuntu Code Snippet
 
 ```Dockerfile
-RUN set -ex; \
+RUN set -eux; \
     apt-get update -y; \
     apt-get install -y --no-install-recommends \
         build-essential \

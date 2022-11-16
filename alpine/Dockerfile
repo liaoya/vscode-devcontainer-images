@@ -42,11 +42,19 @@ RUN set -eux ; \
     rm /var/cache/apk/*
 
 #hadolint ignore=DL3013
-RUN set -ex; \
+RUN set -eux; \
     curl -sL https://bootstrap.pypa.io/get-pip.py | python3 -; \
-    pip3 install --no-cache-dir pre-commit
+    pip3 install --prefix /usr/local --no-cache-dir pre-commit
 
-ARG USERNAME=alpine
+#hadolint ignore=SC2016
+RUN set -eux; \
+    POWERLINE_GO_VERSION=${POWERLINE_GO_VERSION:-$(curl -sL https://api.github.com/repos/justjanne/powerline-go/releases/latest | jq -r .tag_name)}; \
+    curl -sL "https://github.com/justjanne/powerline-go/releases/download/${POWERLINE_GO_VERSION}/powerline-go-linux-amd64" -o /usr/local/bin/powerline-go; \
+    chmod a+x /usr/local/bin/powerline-go; \
+    echo -e '#!/bin/bash\n\nif command -v powerline-go 1>/dev/null 2>&1 && [[ $TERM == xterm-256 || $TERM != putty-256 ]]; then\n    function _update_ps1() {\n        PS1="$(powerline-go -cwd-max-depth 5 -cwd-max-dir-size 50 -error $? -hostname-only-if-ssh -jobs $(jobs -p | wc -l) -newline)"\n    }\n    if [[ ! $PROMPT_COMMAND =~ _update_ps1 ]]; then\n        PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n    fi\nfi' >/etc/profile.d/powerline-go.sh
+
+
+ARG USERNAME=vscode
 RUN set -eux ; \
     adduser -D -G users -s /bin/bash "${USERNAME}"; \
     echo "${USERNAME}:${USERNAME}" | chpasswd; \
