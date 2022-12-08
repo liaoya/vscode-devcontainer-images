@@ -53,7 +53,6 @@ RUN set -eux; \
     chmod a+x /usr/local/bin/powerline-go; \
     echo -e '#!/bin/bash\n\nif command -v powerline-go 1>/dev/null 2>&1 && [[ $TERM == xterm-256 || $TERM != putty-256 ]]; then\n    function _update_ps1() {\n        PS1="$(powerline-go -cwd-max-depth 5 -cwd-max-dir-size 50 -error $? -hostname-only-if-ssh -jobs $(jobs -p | wc -l) -newline)"\n    }\n    if [[ ! $PROMPT_COMMAND =~ _update_ps1 ]]; then\n        PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n    fi\nfi' >/etc/profile.d/powerline-go.sh
 
-
 ARG USERNAME=vscode
 RUN set -eux ; \
     adduser -D -G users -s /bin/bash "${USERNAME}"; \

@@ -31,7 +31,7 @@
     }
   },
   "mounts": [
-    "source=devcontainer-cmake,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+    "source=devcontainer-cmake,target=/home/vscode/.vscode-server/extensions,type=volume"
   ],
-  "remoteUser": "ubuntu"
+  "remoteUser": "vscode"
 }

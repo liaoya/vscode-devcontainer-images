@@ -26,8 +26,8 @@
     }
   },
   "mounts": [
-    "source=devcontainer-gradle-vscode-extension,target=/home/ubuntu/.vscode-server/extensions,type=volume",
-    "source=devcontainer-gradle-cache,target=/home/ubuntu/.gradle,type=volume"
+    "source=devcontainer-gradle-vscode-extension,target=/home/vscode/.vscode-server/extensions,type=volume",
+    "source=devcontainer-gradle-cache,target=/home/vscode/.gradle,type=volume"
   ],
-  "remoteUser": "ubuntu"
+  "remoteUser": "vscode"
 }

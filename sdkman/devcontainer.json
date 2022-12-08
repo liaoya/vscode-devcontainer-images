@@ -24,7 +24,7 @@
     }
   },
   "mounts": [
-    "source=devcontainer-sdkman,target=/home/ubuntu/.vscode-server/extensions,type=volume"
+    "source=devcontainer-sdkman,target=/home/vscode/.vscode-server/extensions,type=volume"
   ],
-  "remoteUser": "ubuntu"
+  "remoteUser": "vscode"
 }

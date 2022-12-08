@@ -5,7 +5,7 @@ if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; t
         export UBUNTU_MIRROR_PATH=http://mirrors.ustc.edu.cn
     fi
 fi
-export UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/library/ubuntu:jammy-20221003}
+export UBUNTU_IMAGE=${UBUNTU_IMAGE:-docker.io/library/ubuntu:jammy-20221101}
 UBUNTU_VERSION=$(echo "${UBUNTU_IMAGE}" | cut -d":" -f2)
 add_image "docker.io/yaekee/vsc-devcontainer-ubuntu:${UBUNTU_VERSION}"
 #shellcheck disable=SC2086

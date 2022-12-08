@@ -5,7 +5,7 @@
       "http_proxy": "${localEnv:http_proxy}",
       "https_proxy": "${localEnv:https_proxy}",
       "no_proxy": "${localEnv:no_proxy}",
-      "DEBIAN_IMAGE": "docker.io/library/debian:bullseye",
+      "DEBIAN_IMAGE": "docker.io/library/debian:stable-20221205-slim",
       "DEBIAN_MIRROR_PATH": "${localEnv:DEBIAN_MIRROR_PATH}"
     },
     "dockerfile": "Dockerfile"
@@ -25,7 +25,7 @@
     }
   },
   "mounts": [
-    "source=devcontainer-debian,target=/home/debian/.vscode-server/extensions,type=volume"
+    "source=devcontainer-debian,target=/home/vscode/.vscode-server/extensions,type=volume"
   ],
-  "remoteUser": "debian"
+  "remoteUser": "vscode"
 }

@@ -13,6 +13,14 @@
 
 - `redhat.ansible`
 
+## Bash
+
+- `foxundermoon.shell-format`
+- `mads-hartmann.bash-ide-vscode`
+- `remisa.shellman`
+- `rogalmic.bash-debug`
+- `timonwong.shellcheck`
+
 ### C++
 
 - `ms-vscode.cpptools`
@@ -21,7 +29,13 @@
 
 ### CMake
 
+- `twxs.cmake` (will be installed by `ms-vscode.cmake-tools`)
 - `ms-vscode.cmake-tools` (included in `ms-vscode.cpptools-extension-pack`)
+
+## Code Debug and Runner
+
+- `formulahendry.code-runner`
+- `wowbox.code-debuger`
 
 ### Java
 
