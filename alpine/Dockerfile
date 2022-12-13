@@ -60,5 +60,5 @@ RUN set -eux ; \
     touch "/home/${USERNAME}/.bashrc"; \
     echo "${USERNAME}    ALL=(ALL)    NOPASSWD: ALL" | tee "/etc/sudoers.d/${USERNAME}"; \
     chmod 0440 "/etc/sudoers.d/${USERNAME}"; \
-    mkdir -p "/home/${USERNAME}/.vscode-server/extensions" "/home/${USERNAME}/.vscode-server-insiders/extensions"; \
-    chown -R "${USERNAME}:$(id -g ${USERNAME})" "/home/${USERNAME}/.vscode-server" "/home/${USERNAME}/.vscode-server-insiders"
+    mkdir -p "/home/${USERNAME}/.gradle" "/home/${USERNAME}/.m2" "/home/${USERNAME}/.vscode-server/extensions" "/home/${USERNAME}/.vscode-server-insiders/extensions"; \
+    chown -R "${USERNAME}:$(id -g ${USERNAME})" "/home/${USERNAME}/.gradle" "/home/${USERNAME}/.m2" "/home/${USERNAME}/.vscode-server" "/home/${USERNAME}/.vscode-server-insiders"

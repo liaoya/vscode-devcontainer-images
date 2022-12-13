@@ -9,5 +9,7 @@ if [[ $(timedatectl show | grep Timezone | cut -d= -f2) == "Asia/Shanghai" ]]; t
     fi
 fi
 export VSC_UBUNTU_IMAGE=${VSC_UBUNTU_IMAGE:-docker.io/yaekee/vsc-devcontainer-ubuntu:jammy}
-UBUNTU_VERSION=$(echo "${UBUNTU_IMAGE}" | cut -d":" -f2)
-add_image "docker.io/yaekee/vsc-devcontainer-python:${UBUNTU_VERSION}"
+
+#shellcheck disable=SC2086
+add_image "docker.io/yaekee/vsc-devcontainer-python:$(echo ${VSC_UBUNTU_IMAGE} | cut -d: -f2)"
+add_image docker.io/yaekee/vsc-devcontainer-python:latest

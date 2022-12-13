@@ -5,7 +5,7 @@
       "http_proxy": "${localEnv:http_proxy}",
       "https_proxy": "${localEnv:https_proxy}",
       "no_proxy": "${localEnv:no_proxy}",
-      "CMAKE_VERSION": "v3.24.2",
+      "CMAKE_VERSION": "v3.25.1",
       "NINJA_VERSION": "v1.11.1",
       "VSC_UBUNTU_IMAGE": "docker.io/yaekee/vsc-devcontainer-ubuntu:jammy"
     },

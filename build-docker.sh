@@ -1,6 +1,6 @@
 #!/bin/bash
 #shellcheck disable=SC1091,SC2154,SC2312
-# VERSION: 0.1.3
+# VERSION: 0.1.4
 # Usage
 # Put pre.sh and post.sh in the ${WORK_DIR} folder
 
@@ -144,7 +144,7 @@ function start_http_server() {
         echo "Can't start a http server"
         exit 1
     fi
-    hook::add_exit_hook "fuser -k ${HTTP_PORT}/tcp"
+    hook::add_exit_hook "fuser -k ${port}/tcp"
 }
 
 function check_port_used() {
@@ -199,6 +199,12 @@ function add_image() {
     fi
 }
 
+function push_image() {
+    for name in "${IMAGE_NAME[@]}"; do
+        docker image push "${name}"
+    done
+}
+
 function remove_image() {
     local find name
     find=0
@@ -219,11 +225,12 @@ $(basename "${BASH_SOURCE[0]}") OPTIONS
     -v, verbose mode
     -f, the Dockerfile name, it can be full path. ${DOCKERFILE:+the default is ${DOCKERFILE}}
     -n, the full path as image name including tag, can be multiple.
+    -p, push the image to register, need login at first. ${PUSH:+the default is ${PUSH}}
     -w, the working directory for docker build. ${WORK_DIR:+the default is ${WORK_DIR}}
 EOF
 }
 
-while getopts :hvf:n:w: OPTION; do
+while getopts :hvpf:n:w: OPTION; do
     case ${OPTION} in
     h)
         _print_help
@@ -232,6 +239,9 @@ while getopts :hvf:n:w: OPTION; do
     v)
         set -x
         export PS4='+(${BASH_SOURCE[0]}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+        ;;
+    p)
+        PUSH=1
         ;;
     f)
         DOCKERFILE=$(readlink -f "${OPTARG}")
@@ -318,4 +328,8 @@ docker build --force-rm "${DOCKER_BUILD_OPTS[@]}" -f "${DOCKERFILE}" "${WORK_DIR
 # source the file so that it can export some values
 if [[ -f "${DOCKERFILE_DIR}/post.sh" ]]; then
     source "${DOCKERFILE_DIR}/post.sh"
+fi
+
+if [[ ${PUSH:-0} -gt 0 ]]; then
+    push_image
 fi

@@ -22,7 +22,7 @@ RUN set -eux; \
 #hadolint ignore=DL3008,DL4006,SC3057
 RUN set -eux; \
     CMAKE_VERSION=${CMAKE_VERSION:-$(curl -sL https://api.github.com/repos/Kitware/CMake/releases | jq -r -S ".[].tag_name" | grep -v '\-rc' | sort -r | head -n 1)}; \
-    CMAKE_VERSION=${CMAKE_VERSION:-v3.24.2}; \
+    CMAKE_VERSION=${CMAKE_VERSION:-v3.25.1}; \
     curl -sL -o- "https://github.com/Kitware/CMake/releases/download/${CMAKE_VERSION}/cmake-${CMAKE_VERSION:1}-linux-x86_64.tar.gz" | tar --strip-components=1 -zxf - -C /usr/local; \
     rm -f /usr/local/bin/cmake-gui /usr/local/bin/ccmake; \
     cp /usr/local/share/bash-completion/completions/* /etc/bash_completion.d/; \

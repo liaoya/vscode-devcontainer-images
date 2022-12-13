@@ -10,4 +10,7 @@ MESON_VERSION=${MESON_VERSION:-$(curl -sL https://api.github.com/repos/mesonbuil
 MESON_VERSION=${MESON_VERSION:-0.63.3}
 export MESON_VERSION
 
+#shellcheck disable=SC2086
+add_image "docker.io/yaekee/vsc-devcontainer-meson:$(echo ${VSC_UBUNTU_IMAGE} | cut -d: -f2)-${MESON_VERSION}"
 add_image "docker.io/yaekee/vsc-devcontainer-meson:${MESON_VERSION}"
+add_image docker.io/yaekee/vsc-devcontainer-meson:latest

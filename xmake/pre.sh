@@ -6,4 +6,7 @@ XMAKE_VERSION=${XMAKE_VERSION:-$(curl -sL https://api.github.com/repos/xmake-io/
 XMAKE_VERSION=${XMAKE_VERSION:-v2.7.2}
 export XMAKE_VERSION=${XMAKE_VERSION:1}
 
-add_image "docker.io/yaekee/vsc-devcontainer-xmake:v${XMAKE_VERSION}"
+#shellcheck disable=SC2086
+add_image "docker.io/yaekee/vsc-devcontainer-xmake:$(echo ${VSC_UBUNTU_IMAGE} | cut -d: -f2)-${XMAKE_VERSION}"
+add_image "docker.io/yaekee/vsc-devcontainer-xmake:${XMAKE_VERSION}"
+add_image docker.io/yaekee/vsc-devcontainer-xmake:latest
