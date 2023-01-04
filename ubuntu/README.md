@@ -2,9 +2,11 @@
 
 ```bash
 env UBUNTU_MIRROR_PATH="" ../build-docker.sh -w .
-docker image push docker.io/yaekee/vsc-devcontainer-ubuntu
 
-env ALPINE_MIRROR_PATH="" ALPINE_IMAGE=docker.io/library/alpine:3.13.12 ../build-docker.sh -w .
+# Push the image
+env UBUNTU_MIRROR_PATH="" ../build-docker.sh -p -w .
+
+env UBUNTU_MIRROR_PATH="" UBUNTU_IMAGE=docker.io/library/ubuntu:jammy-20221130 ../build-docker.sh -w .
 ```
 
 ```Dockerfile
@@ -20,7 +22,7 @@ RUN set -eux; \
 
 - `docker.io/library/ubuntu:jammy-20221130`
 - `docker.io/library/ubuntu:focal-20221130`
-- `docker.io/library/ubuntu:bionic-20221130`
+- `docker.io/library/ubuntu:bionic-20221215`
 
 ## Reference
 
